@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV & Portfolio | Nam Trần - Sinh Viên Năng Động</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #121212; /* Nền chính tối hơn */
+            --bg-card: rgba(30, 30, 45, 0.6); /* Nền card hơi trong suốt với blur */
+            --bg-card-hover: rgba(45, 45, 65, 0.7);
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --accent-primary: #00aeff; /* Xanh dương công nghệ */
+            --accent-secondary: #ff4081; /* Hồng neon làm điểm nhấn */
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0, 174, 255, 0.3);
+
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Poppins', sans-serif;
+            --font-code: 'Roboto Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.7;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden; /* Tránh scroll ngang do animation */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        header .logo span { color: var(--accent-secondary); }
+
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        header nav ul li {
+            margin-left: 25px;
+        }
+
+        header nav ul li a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        header nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            transition: width 0.3s ease;
+        }
+
+        header nav ul li a:hover, header nav ul li a.active {
+            color: var(--accent-primary);
+            text-shadow: 0 0 5px var(--accent-primary);
+        }
+        header nav ul li a:hover::after, header nav ul li a.active::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px; /* Account for fixed header */
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a2e 100%); /* Gradient nhẹ nhàng */
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before { /* Lớp phủ hạt nhiễu - noise overlay */
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+        }
+        
+        .hero img.profile-pic {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--accent-primary);
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hero img.profile-pic:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 45px var(--shadow-color);
+        }
+
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: textShine 5s linear infinite;
+        }
+
+        @keyframes textShine {
+            to { background-position: 200% center; }
+        }
+
+        .hero .subtitle {
+            font-size: 1.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        .hero .subtitle .typing-text {
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .hero .cta-button {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            color: #fff;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .hero .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--shadow-color);
+        }
+
+        .social-links-hero {
+            margin-top: 30px;
+        }
+        .social-links-hero a {
+            color: var(--text-secondary);
+            margin: 0 15px;
+            font-size: 1.8rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .social-links-hero a:hover {
+            color: var(--accent-primary);
+            transform: scale(1.2);
+        }
+
+        /* General Section Styling */
+        section {
+            padding: 80px 0;
+            position: relative; /* For animations */
+        }
+        section:nth-child(even) { /* Xen kẽ màu nền */
+            background-color: #16161e;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            color: var(--text-primary);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 2px;
+        }
+
+        /* Card Styling (Glassmorphism) */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0; /* For scroll animation */
+            transform: translateY(30px); /* For scroll animation */
+        }
+        .card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: var(--bg-card-hover);
+            box-shadow: 0 12px 40px 0 var(--shadow-color);
+        }
+        .card h3 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+        .card p, .card ul li {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .card ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+        }
+        .card ul li::before {
+            content: "\f058"; /* Font Awesome check icon */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--accent-secondary);
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+
+        /* About Me Section */
+        #about .about-content {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        #about .about-text { flex: 2; }
+        #about .about-image-container {
+            flex: 1;
+            text-align: center;
+        }
+        #about .about-image-container img {
+            max-width: 300px;
+            width: 100%;
+            border-radius: 10px;
+            border: 3px solid var(--accent-secondary);
+            box-shadow: 0 0 20px rgba(255, 64, 129, 0.4);
+        }
+        #about .about-text p { margin-bottom: 15px; }
+
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .skill-category .card { padding: 25px; } /* Smaller padding for skill cards */
+        .skill-category h3 { font-size: 1.4rem; }
+        .skill-category ul li { font-size: 0.95rem; }
+        .skill-category ul li::before { content: "\f101"; /* fa-angle-right */ top: 3px; }
+
+        /* Experience & Activities Section (Timeline Style) */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(var(--accent-primary), var(--accent-secondary));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            opacity: 0; /* For scroll animation */
+            transform: translateY(30px); /* For scroll animation */
+        }
+        .timeline-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: calc(var(--item-index, 0) * 0.15s); /* Staggered animation */
+        }
+        .timeline-item .card {
+            position: relative; /* For arrow */
+        }
+
+        .timeline-item::after { /* The circle on the timeline */
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--bg-dark);
+            border: 4px solid var(--accent-primary);
+            top: 25px;
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 10px var(--accent-primary);
+        }
+        .timeline-item.left { left: 0; }
+        .timeline-item.right { left: 50%; }
+        .timeline-item.left::after { right: -10px; }
+        .timeline-item.right::after { left: -10px; }
+
+        /* Arrow pointers for timeline cards */
+        .timeline-item.left .card::before {
+            content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1;
+            right: -15px; border: medium solid var(--bg-card); border-width: 10px 0 10px 15px;
+            border-color: transparent transparent transparent var(--bg-card); /* Match card bg */
+        }
+        .timeline-item.right .card::before {
+            content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1;
+            left: -15px; border: medium solid var(--bg-card); border-width: 10px 15px 10px 0;
+            border-color: transparent var(--bg-card) transparent transparent; /* Match card bg */
+        }
+        .timeline-item .date {
+            font-family: var(--font-code);
+            color: var(--accent-secondary);
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Portfolio/Projects Section */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .portfolio-item .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Make cards in a row same height */
+        }
+        .portfolio-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+            border-bottom: 2px solid var(--accent-primary);
+        }
+        .portfolio-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .portfolio-content p {
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
+        .portfolio-tags {
+            margin-bottom: 15px;
+        }
+        .portfolio-tags .tag {
+            display: inline-block;
+            background-color: rgba(0, 174, 255, 0.15);
+            color: var(--accent-primary);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-family: var(--font-code);
+        }
+        .portfolio-links a {
+            color: var(--accent-secondary);
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .portfolio-links a:hover {
+            color: var(--accent-primary);
+            text-decoration: underline;
+        }
+        .portfolio-links a i { margin-right: 5px; }
+
+        /* Contact Section */
+        #contact .contact-container {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start; /* Align items to top */
+        }
+        #contact .contact-form-wrapper, #contact .contact-info-wrapper {
+            flex: 1;
+        }
+        #contact .contact-form-wrapper .card, #contact .contact-info-wrapper .card {
+             width: 100%; /* Ensure cards take full width of their flex item */
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 10px var(--shadow-color);
+        }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        
+        button[type="submit"] {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            color: #fff;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+
+        .contact-info-wrapper h3 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+        }
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+        .contact-info-item i {
+            font-size: 1.5rem;
+            color: var(--accent-secondary);
+            margin-right: 15px;
+            width: 30px; /* For alignment */
+            text-align: center;
+        }
+        .contact-info-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .contact-info-item a:hover { color: var(--accent-primary); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #0a0a0a; /* Even darker for footer */
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        footer a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+        footer a:hover { text-decoration: underline;}
+
+        /* Scroll to top button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent-primary);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+            z-index: 999;
+        }
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .scroll-to-top:hover {
+            background: var(--accent-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 2.8rem; }
+            .hero .subtitle { font-size: 1.5rem; }
+            #about .about-content { flex-direction: column; }
+            #about .about-image-container { margin-bottom: 30px; order: -1; /* Image on top */ }
+            .timeline::after { left: 20px; }
+            .timeline-item { width: 100%; padding-left: 50px; padding-right: 10px; }
+            .timeline-item.left, .timeline-item.right { left: 0; }
+            .timeline-item.left::after, .timeline-item.right::after { left: 10px; }
+            .timeline-item.left .card::before, .timeline-item.right .card::before {
+                left: -15px; border-width: 10px 15px 10px 0;
+                border-color: transparent var(--bg-card) transparent transparent;
+            }
+             #contact .contact-container { flex-direction: column; }
+        }
+
+        @media (max-width: 768px) {
+            header .container { flex-direction: column; }
+            header nav { margin-top: 15px; }
+            header nav ul li { margin: 0 10px; }
+            
+            .hero { padding-top: 120px; } /* Adjust for taller header on mobile */
+            .hero h1 { font-size: 2.2rem; }
+            .hero .subtitle { font-size: 1.2rem; }
+            .hero img.profile-pic { width: 150px; height: 150px; }
+
+            .section-title { font-size: 2.2rem; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Animation classes */
+        .fade-in {
+            opacity: 0;
+            transition: opacity 0.8s ease-out;
+        }
+        .fade-in.is-visible {
+            opacity: 1;
+        }
+
+        .slide-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .slide-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="#hero" class="logo">Nam<span>Trần</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#about" class="nav-link">Giới Thiệu</a></li>
+                    <li><a href="#skills" class="nav-link">Kỹ Năng</a></li>
+                    <li><a href="#experience" class="nav-link">Hoạt Động</a></li>
+                    <li><a href="#projects" class="nav-link">Dự Án</a></li>
+                    <li><a href="#contact" class="nav-link">Liên Hệ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="hero">
+        <div class="container hero-content">
+            <!-- Link ảnh của bạn (vuông hoặc tròn, chất lượng tốt) -->
+            <img src="./Assest/img/Avatar.png" alt="Ảnh đại diện của bạn" class="profile-pic animate-on-scroll fade-in">
+            <h1 class="animate-on-scroll slide-up" style="transition-delay: 0.2s;">Chào bạn, tôi là Nam Trần</h1>
+            <p class="subtitle animate-on-scroll slide-up" style="transition-delay: 0.4s;">Sinh viên <span class="typing-text"></span></p>
+            <p class="animate-on-scroll slide-up" style="transition-delay: 0.6s; color: var(--text-secondary); max-width: 600px; margin: 0 auto 25px auto;">
+                Luôn sẵn sàng học hỏi, khám phá công nghệ mới và đóng góp vào những dự án ý nghĩa.
+            </p>
+            <a href="#projects" class="cta-button animate-on-scroll slide-up" style="transition-delay: 0.8s;">Xem Dự Án Của Tôi</a>
+            <div class="social-links-hero animate-on-scroll fade-in" style="transition-delay: 1s;">
+                <a href="https://github.com/Namtran592005" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://fb.com/Namtran5905" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll fade-in">Về Bản Thân</h2>
+                <div class="about-content">
+                    <div class="about-text animate-on-scroll slide-up">
+                        <p>Xin chào! Tôi là Nam Trần, hiện đang là sinh viên năm 2 tại Trường Cao đẳng nghề Trà Vinh, chuyên ngành Công nghệ Thông tin.</p>
+                        <p>Dù chưa có nhiều kinh nghiệm chuyên sâu, tôi luôn mang trong mình một tinh thần <strong>ham học hỏi, khả năng thích ứng nhanh và một thái độ làm việc tích cực</strong>. Các công việc bán thời gian và hoạt động ngoại khóa đã giúp tôi rèn luyện nhiều kỹ năng mềm quan trọng.</p>
+                        <p>Mục tiêu của tôi là được áp dụng kiến thức đã học và phát triển bản thân trong một môi trường năng động, chuyên nghiệp. Tôi đặc biệt quan tâm đến Công nghệ web, marketing, thiết kế, phân tích dữ liệu và mong muốn được đóng góp vào các dự án thực tế.</p>
+                        <p><strong>Giá trị cốt lõi:</strong> Trung thực, Trách nhiệm, Sáng tạo và Không ngừng cải thiện.</p>
+                    </div>
+                    <div class="about-image-container animate-on-scroll fade-in" style="transition-delay: 0.2s;">
+                        <!-- Một ảnh khác của bạn, có thể là ảnh đời thường hoặc liên quan đến sở thích -->
+                        <img src="./Assest/img/image.jpg" alt="Niềm đam mê">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll fade-in">Kỹ Năng & Công Cụ</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <div class="card animate-on-scroll slide-up">
+                            <h3><i class="fas fa-brain" style="margin-right: 10px; color: var(--accent-secondary);"></i>Kỹ Năng Mềm</h3>
+                            <ul>
+                                <li>Giao tiếp & Trình bày</li>
+                                <li>Làm việc nhóm & Độc lập</li>
+                                <li>Giải quyết vấn đề</li>
+                                <li>Tư duy phản biện</li>
+                                <li>Quản lý thời gian</li>
+                                <li>Khả năng thích ứng & Học hỏi nhanh</li>
+                                <!-- Thêm kỹ năng mềm bạn có -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="card animate-on-scroll slide-up" style="transition-delay: 0.15s;">
+                            <h3><i class="fas fa-tools" style="margin-right: 10px; color: var(--accent-secondary);"></i>Công Cụ & Tin Học</h3>
+                            <ul>
+                                <li>Microsoft Office (Word, Excel, PowerPoint) - Thành thạo</li>
+                                <li>Google Workspace (Docs, Sheets, Slides)</li>
+                                <li>Photoshop, Canva & Premiere Pro cơ bản, Edit video Capcut, </li>
+                                <li>Tiếng Anh: Giao tiếp cơ bản, Đọc hiểu tài liệu chuyên ngành</li>
+                                <!-- Thêm kỹ năng khác -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <div class="card animate-on-scroll slide-up" style="transition-delay: 0.3s;">
+                            <h3><i class="fas fa-laptop-code" style="margin-right: 10px; color: var(--accent-secondary);"></i>Kiến Thức Kỹ Thuật (Nếu có)</h3>
+                            <ul>
+                                <li>HTML, CSS, C++</li>
+                                <li>Thiết kế Mạng máy tính</li>
+                                <li>Sử dụng AI Ứng dụng công việc hiệu quả</li>
+                                <li>Sửa chữa, Lắp ráp và lắp đặt máy tính, Camera, Máy in</li>
+                                <li>Thương mại Điện tử</li>
+                                <li>Marketing</li>
+                                <!-- Thêm kiến thức khác -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll fade-in">Kinh Nghiệm & Hoạt Động</h2>
+                <div class="timeline">
+                    <!-- Mục 1: Công việc bán thời gian / Thực tập -->
+                    <div class="timeline-item left" style="--item-index: 0;">
+                        <div class="card">
+                            <h3>Nhân viên vận chuyển và phân phối thực thẩm</h3>
+                            <span class="date">ShopeeFood | 3/2025 – Hiện tại</span>
+                            <p>Mô tả ngắn về công việc và trách nhiệm chính:</p>
+                            <ul>
+                                <li>Phục vụ khách hàng, giải đáp thắc mắc và xử lý các yêu cầu.</li>
+                                <li>Hỗ trợ sắp xếp hàng hóa, quản lý kho.</li>
+                                <li>Tham gia vào các chiến dịch quảng bá nhỏ của cửa hàng.</li>
+                                <li><strong>Bài học rút ra:</strong> Rèn luyện kỹ năng giao tiếp, sự kiên nhẫn và khả năng làm việc dưới áp lực.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Mục 2: Hoạt động ngoại khóa / CLB -->
+                    <div class="timeline-item right" style="--item-index: 1;">
+                        <div class="card">
+                            <h3>Designer</h3>
+                            <span class="date">CLB CHILLCHILL | 4/2025</span>
+                            <p>Mô tả vai trò và đóng góp:</p>
+                            <ul>
+                                <li>Thành viên Ban Truyền Thông CLB ChillChill, hỗ trợ thiết kế ấn phẩm, viết nội dung.</li>
+                                <li>Tình nguyện viên sự kiện Khởi Nghiệp Sinh Viên, hỗ trợ công tác hậu cần, đón tiếp.</li>
+                                <li><strong>Bài học rút ra:</strong> Học được cách làm việc nhóm hiệu quả, lên kế hoạch và tổ chức sự kiện.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Mục 3: Dự án học tập nổi bật -->
+                    <div class="timeline-item left" style="--item-index: 2;">
+                        <div class="card">
+                            <h3>[Tên Dự Án Học Tập/Bài Tập Lớn]</h3>
+                            <span class="date">Môn học [Tên Môn Học] | [Học Kỳ/Năm Học]</span>
+                            <p>Mô tả dự án, vai trò của bạn và kết quả (nếu có). Ví dụ:</p>
+                            <ul>
+                                <li>Thực hiện dự án "Nghiên cứu hành vi người dùng ứng dụng XYZ".</li>
+                                <li>Vai trò: Thu thập dữ liệu, phân tích và viết báo cáo.</li>
+                                <li><strong>Thành quả/Bài học:</strong> Áp dụng kiến thức thống kê, rèn luyện kỹ năng phân tích và làm việc với số liệu.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Thêm các mục khác nếu cần -->
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll fade-in">Dự Án Cá Nhân & Portfolio</h2>
+                <p style="text-align:center; max-width: 700px; margin: -40px auto 40px auto; color: var(--text-secondary);" class="animate-on-scroll fade-in">
+                    Đây là những dự án nhỏ tôi tự thực hiện để rèn luyện kỹ năng hoặc thể hiện sự sáng tạo.
+                    Kể cả những bài tập, thiết kế đơn giản bạn tự hào cũng có thể đưa vào!
+                </p>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item">
+                        <div class="card animate-on-scroll slide-up">
+                            <!-- Ảnh minh họa dự án, có thể là screenshot, mockup -->
+                            <img src="https://via.placeholder.com/400x250/00aeff/121212?text=Dự+Án+1" alt="Ảnh dự án 1">
+                            <div class="portfolio-content">
+                                <h3>Website cá nhân đơn giản]</h3>
+                                <p>Lập trình trang web này bằng React với hỗ trợ từ AI để thực hành kiến thức web cơ bản</p>
+                                <div class="portfolio-tags">
+                                    <span class="tag">HTML, CSS, JavaScript</span>
+                                    <span class="tag">TypeScript</span>
+                                    <span class="tag">React JS</span>
+                                    <span class="tag">Học tập</span>
+                                </div>
+                                <div class="portfolio-links">
+                                    <a href="https://github.com/Namtran592005/BioPage" target="_blank"><i class="fab fa-github"></i> Source Code</a>
+                                    <a href="https://namtran592005.github.io/BioPage/" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="card animate-on-scroll slide-up" style="transition-delay: 0.15s;">
+                            <img src="https://via.placeholder.com/400x250/ff4081/121212?text=Dự+Án+2" alt="Ảnh dự án 2">
+                            <div class="portfolio-content">
+                                <h3>Thiết kế poster sự kiện CLB</h3>
+                                <p>Sử dụng Photoshop,Canva để thiết kế poster cho sự kiện của CLB, tập trung vào bố cục và màu sắc thu hút</p>
+                                <div class="portfolio-tags">
+                                    <span class="tag">Photoshop, Canva</span>
+                                    <span class="tag">Thiết kế</span>
+                                    <span class="tag">Hoạt động CLB</span>
+                                </div>
+                                <div class="portfolio-links">
+                                    <a href="[Link xem ảnh/file thiết kế nếu có]" target="_blank"><i class="fas fa-eye"></i> Xem Thiết Kế</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                         <div class="card animate-on-scroll slide-up" style="transition-delay: 0.3s;">
+                            <img src="https://via.placeholder.com/400x250/34eb6e/121212?text=Dự+Án+3" alt="Ảnh dự án 3">
+                            <div class="portfolio-content">
+                                <h3>Bài thuyết trình ấn tượng]</h3>
+                                <p>Chuẩn bị bài thuyết trình cho môn Pháp Luật với hiệu ứng và nội dung sáng tạo, được giảng viên đánh giá cao về tính trực quan</p>
+                                <div class="portfolio-tags">
+                                    <span class="tag">PowerPoint</span>
+                                    <span class="tag">Thuyết trình</span>
+                                    <span class="tag">Học thuật</span>
+                                </div>
+                                <div class="portfolio-links">
+                                    <!-- Có thể link tới file PDF hoặc video quay lại nếu có -->
+                                    <a href="#" target="_blank"><i class="fas fa-file-powerpoint"></i> Xem Slide (nếu có)</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Thêm dự án khác nếu cần -->
+                </div>
+            </div>
+        </section>
+        
+        <section id="education">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll fade-in">Học Vấn</h2>
+                 <div class="timeline">
+                    <div class="timeline-item left" style="--item-index: 0;">
+                        <div class="card">
+                            <h3>Trường Cao đẳng Nghề Trà Vinh</h3>
+                            <span class="date">Công nghệ Thông Tin | 2024 – Dự kiến 2027</span>
+                            <p>Điểm GPA hiện tại: 3.9</p>
+                            <ul>
+                                <li>Thành tích nổi bật:...</li>
+                                <!--li>Các môn học yêu thích/liên quan đến định hướng: [Liệt kê một vài môn]</li-->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item right" style="--item-index: 0;">
+                        <div class="card">
+                            <h3>Trường Trung Cấp Kinh Tế Kỹ Thuật Nguyễn Hữu Cảnh</h3>
+                            <span class="date">Tin Học Ứng dụng | 2022</span>
+                            <p>Tốt Nghiệp Loại Giỏi</p>
+                            <ul>
+                                <li>Thành tích nổi bật:...</li>
+                                <!--li>Các môn học yêu thích/liên quan đến định hướng: [Liệt kê một vài môn]</li-->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-item left" style="--item-index: 1;">
+                         <div class="card">
+                            <h3>Trường Trung Tâm GDTX-HNDN Thành Phố Trà Vinh</h3>
+                            <span class="date">Tốt nghiệp năm 2023</span>
+                            <p>Thành tích: Học sinh giỏi năm lớp 11 và 12</p>
+                        </div>
+                    </div>
+                    <!-- Thêm các khóa học online, chứng chỉ khác nếu có -->
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll fade-in">Kết Nối Với Tôi</h2>
+                <div class="contact-container">
+                    <div class="contact-form-wrapper animate-on-scroll slide-up">
+                        <div class="card">
+                            <h3>Gửi Lời Nhắn</h3>
+                            <form action="https://api.web3forms.com/submit" method="POST">
+                                <!-- Thay YOUR_ACCESS_KEY_HERE bằng key của bạn từ web3forms.com -->
+                                <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+                                <input type="hidden" name="subject" value="Lời nhắn mới từ Portfolio của [Tên Của Bạn]">
+                                <input type="hidden" name="from_name" value="Portfolio Visitor">
+                                
+                                <div class="form-group">
+                                    <label for="name">Họ và Tên:</label>
+                                    <input type="text" id="name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Lời nhắn:</label>
+                                    <textarea id="message" name="message" required></textarea>
+                                </div>
+                                <button type="submit">Gửi Đi <i class="fas fa-paper-plane" style="margin-left: 8px;"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="contact-info-wrapper animate-on-scroll slide-up" style="transition-delay: 0.15s;">
+                        <div class="card">
+                            <h3>Thông Tin Liên Hệ</h3>
+                            <div class="contact-info-item">
+                                <i class="fas fa-envelope"></i>
+                                <span><a href="mailto:[Email của bạn]">Namtran5905@gmail.com</a></span>
+                            </div>
+                            <div class="contact-info-item">
+                                <i class="fas fa-phone-alt"></i>
+                                <span><a href="tel:[Số điện thoại của bạn]">....</a></span>
+                            </div>
+                            <div class="contact-info-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Phường Nguyệt Hóa, Tỉnh Vĩnh Long</span>
+                            </div>
+                            <h3 style="margin-top: 30px;">Mạng Xã Hội</h3>
+                            <div class="contact-info-item">
+                                <i class="fab fa-github"></i>
+                                <a href="https://github.com/Namtran592005" target="_blank">GitHub Portfolio</a>
+                            </div>
+                             <div class="contact-info-item">
+                                <i class="fab fa-facebook"></i>
+                                <a href="https://fb.com/namtran5905" target="_blank">Facebook</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> <a href="#hero">Nam Trần</a>. Thiết kế với <i class="fas fa-heart" style="color: var(--accent-secondary);"></i> và rất nhiều <i class="fas fa-mug-hot" style="color: var(--accent-primary);"></i>.</p>
+            <p>Một sản phẩm của sinh viên ham học hỏi.</p>
+        </div>
+    </footer>
+
+    <a href="#hero" class="scroll-to-top"><i class="fas fa-arrow-up"></i></a>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Typing animation for Hero section
+        const typingTextElement = document.querySelector('.hero .typing-text');
+        const roles = ["Năng Động", "Ham Học Hỏi", "Sáng Tạo", "Sẵn Sàng Thử Thách"];
+        let roleIndex = 0;
+        let charIndex = 0;
+        let currentText = '';
+        let isDeleting = false;
+
+        function type() {
+            const fullText = roles[roleIndex];
+            if (isDeleting) {
+                currentText = fullText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                currentText = fullText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            typingTextElement.textContent = currentText;
+
+            let typeSpeed = 150;
+            if (isDeleting) {
+                typeSpeed /= 2;
+            }
+
+            if (!isDeleting && currentText === fullText) {
+                typeSpeed = 2000; // Pause at end
+                isDeleting = true;
+            } else if (isDeleting && currentText === '') {
+                isDeleting = false;
+                roleIndex = (roleIndex + 1) % roles.length;
+                typeSpeed = 500; // Pause before start typing new role
+            }
+            setTimeout(type, typeSpeed);
+        }
+        // Start typing animation after a delay
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typingTextElement) {
+                setTimeout(type, 1000);
+            }
+        });
+
+
+        // Scroll-triggered animations using Intersection Observer
+        const animatedElements = document.querySelectorAll('.animate-on-scroll, .card, .timeline-item');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Optional: unobserve after animation to save resources
+                    // observer.unobserve(entry.target); 
+                } else {
+                    // Optional: remove class to re-animate on scroll up
+                    // entry.target.classList.remove('is-visible');
+                }
+            });
+        }, {
+            threshold: 0.1 // Trigger when 10% of the element is visible
+        });
+
+        animatedElements.forEach(el => {
+            observer.observe(el);
+        });
+
+        // Active navigation link highlighting on scroll
+        const navLinks = document.querySelectorAll('header nav ul li a');
+        const sections = document.querySelectorAll('section');
+        
+        window.addEventListener('scroll', () => {
+            let currentSectionId = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - sectionHeight / 3) ) {
+                    currentSectionId = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === currentSectionId) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Scroll to top button visibility
+        const scrollToTopBtn = document.querySelector('.scroll-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        // Form submission to Web3Forms - Optional: Add success/error message handling
+        const form = document.querySelector('#contact form');
+        if(form) {
+            form.addEventListener('submit', function(e) {
+                // You can add a loading state here
+                // e.preventDefault(); // Uncomment if you want to handle via AJAX and show custom messages
+                // const formData = new FormData(form);
+                // const object = {};
+                // formData.forEach((value, key) => object[key] = value);
+                // const json = JSON.stringify(object);
+
+                // fetch('https://api.web3forms.com/submit', {
+                //         method: 'POST',
+                //         headers: {
+                //             'Content-Type': 'application/json',
+                //             'Accept': 'application/json'
+                //         },
+                //         body: json
+                //     })
+                //     .then(async (response) => {
+                //         let jsonResponse = await response.json();
+                //         if (response.status == 200) {
+                //             alert('Tin nhắn đã được gửi thành công!');
+                //             form.reset();
+                //         } else {
+                //             console.log(response);
+                //             alert('Có lỗi xảy ra: ' + jsonResponse.message);
+                //         }
+                //     })
+                //     .catch(error => {
+                //         console.log(error);
+                //         alert('Có lỗi xảy ra khi gửi tin nhắn.');
+                //     })
+                //     .finally(() => {
+                //         // Remove loading state
+                //     });
+            });
+        }
+
+
+    </script>
+</body>
+</html>
