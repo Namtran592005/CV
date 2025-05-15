@@ -11,15 +11,17 @@
 
     <style>
         :root {
-            --bg-dark: #121212; /* Nền chính tối hơn */
-            --bg-card: rgba(30, 30, 45, 0.6); /* Nền card hơi trong suốt với blur */
+            --bg-dark: #121212;
+            --bg-card: rgba(30, 30, 45, 0.6);
             --bg-card-hover: rgba(45, 45, 65, 0.7);
             --text-primary: #e0e0e0;
             --text-secondary: #b0b0b0;
-            --accent-primary: #00aeff; /* Xanh dương công nghệ */
-            --accent-secondary: #ff4081; /* Hồng neon làm điểm nhấn */
+            --accent-primary: #00aeff;
+            --accent-primary-rgb: 0, 174, 255; /* For rgba usage */
+            --accent-secondary: #ff4081;
             --border-color: rgba(255, 255, 255, 0.1);
             --shadow-color: rgba(0, 174, 255, 0.3);
+            --bg-header-mobile-nav: rgba(22, 22, 30, 0.97); /* Slightly adjusted for mobile nav bg */
 
             --font-heading: 'Poppins', sans-serif;
             --font-body: 'Poppins', sans-serif;
@@ -41,7 +43,10 @@
             line-height: 1.7;
             background-color: var(--bg-dark);
             color: var(--text-primary);
-            overflow-x: hidden; /* Tránh scroll ngang do animation */
+            overflow-x: hidden;
+        }
+        body.no-scroll { /* To prevent scrolling when mobile nav is open */
+            overflow-y: hidden;
         }
 
         .container {
@@ -70,7 +75,24 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative; /* For mobile nav absolute positioning context */
         }
+        
+        .mobile-nav-toggle {
+            display: none; /* Hidden on desktop */
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.6rem;
+            cursor: pointer;
+            z-index: 1002; /* Above nav, below potential overlay */
+            padding: 8px 12px;
+            margin-right: 10px; /* Space between toggle and logo */
+        }
+        .mobile-nav-toggle .fa-times { display: none; }
+        .mobile-nav-toggle.nav-open .fa-bars { display: none; }
+        .mobile-nav-toggle.nav-open .fa-times { display: block; color: var(--accent-secondary); }
+
 
         header .logo {
             font-family: var(--font-heading);
@@ -78,20 +100,24 @@
             font-weight: 700;
             color: var(--accent-primary);
             text-decoration: none;
+            z-index: 1001; /* Ensure logo is clickable over nav elements on mobile if overlaps */
         }
         header .logo span { color: var(--accent-secondary); }
 
+        header nav#main-nav { /* Added ID for specific targeting */
+            /* Desktop styles */
+        }
 
-        header nav ul {
+        header nav#main-nav ul {
             list-style: none;
-            display: flex;
+            display: flex; /* Desktop: horizontal */
         }
 
-        header nav ul li {
-            margin-left: 25px;
+        header nav#main-nav ul li {
+            margin-left: 25px; /* Desktop: spacing */
         }
 
-        header nav ul li a {
+        header nav#main-nav ul li a {
             color: var(--text-primary);
             text-decoration: none;
             font-weight: 600;
@@ -99,7 +125,7 @@
             position: relative;
             padding-bottom: 5px;
         }
-        header nav ul li a::after {
+        header nav#main-nav ul li a::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -110,11 +136,13 @@
             transition: width 0.3s ease;
         }
 
-        header nav ul li a:hover, header nav ul li a.active {
+        header nav#main-nav ul li a:hover, 
+        header nav#main-nav ul li a.active {
             color: var(--accent-primary);
             text-shadow: 0 0 5px var(--accent-primary);
         }
-        header nav ul li a:hover::after, header nav ul li a.active::after {
+        header nav#main-nav ul li a:hover::after, 
+        header nav#main-nav ul li a.active::after {
             width: 100%;
         }
 
@@ -126,19 +154,18 @@
             justify-content: center;
             text-align: center;
             padding-top: 80px; /* Account for fixed header */
-            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a2e 100%); /* Gradient nhẹ nhàng */
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a2e 100%);
             position: relative;
             overflow: hidden;
         }
-        .hero::before { /* Lớp phủ hạt nhiễu - noise overlay */
+        .hero::before {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.03;
+            opacity: 0.025; /* Slightly reduced for subtlety */
             pointer-events: none;
         }
-
 
         .hero-content {
             max-width: 800px;
@@ -220,9 +247,9 @@
         /* General Section Styling */
         section {
             padding: 80px 0;
-            position: relative; /* For animations */
+            position: relative;
         }
-        section:nth-child(even) { /* Xen kẽ màu nền */
+        section:nth-child(even) {
             background-color: #16161e;
         }
 
@@ -256,9 +283,11 @@
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-            opacity: 0; /* For scroll animation */
-            transform: translateY(30px); /* For scroll animation */
+            transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                        background-color 0.35s ease, 
+                        box-shadow 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0; 
+            transform: translateY(30px);
         }
         .card.is-visible {
             opacity: 1;
@@ -289,7 +318,7 @@
             padding-left: 25px;
         }
         .card ul li::before {
-            content: "\f058"; /* Font Awesome check icon */
+            content: "\f058"; 
             font-family: "Font Awesome 6 Free";
             font-weight: 900;
             color: var(--accent-secondary);
@@ -297,7 +326,6 @@
             left: 0;
             top: 2px;
         }
-
 
         /* About Me Section */
         #about .about-content {
@@ -319,17 +347,16 @@
         }
         #about .about-text p { margin-bottom: 15px; }
 
-
         /* Skills Section */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
         }
-        .skill-category .card { padding: 25px; } /* Smaller padding for skill cards */
+        .skill-category .card { padding: 25px; }
         .skill-category h3 { font-size: 1.4rem; }
         .skill-category ul li { font-size: 0.95rem; }
-        .skill-category ul li::before { content: "\f101"; /* fa-angle-right */ top: 3px; }
+        .skill-category ul li::before { content: "\f101"; top: 3px; }
 
         /* Experience & Activities Section (Timeline Style) */
         .timeline {
@@ -352,19 +379,18 @@
             padding: 10px 40px;
             position: relative;
             width: 50%;
-            opacity: 0; /* For scroll animation */
-            transform: translateY(30px); /* For scroll animation */
+            opacity: 0;
+            transform: translateY(30px);
         }
         .timeline-item.is-visible {
             opacity: 1;
             transform: translateY(0);
-            transition-delay: calc(var(--item-index, 0) * 0.15s); /* Staggered animation */
+            transition-delay: calc(var(--item-index, 0) * 0.15s);
         }
         .timeline-item .card {
-            position: relative; /* For arrow */
+            position: relative;
         }
-
-        .timeline-item::after { /* The circle on the timeline */
+        .timeline-item::after { 
             content: '';
             position: absolute;
             width: 20px;
@@ -381,16 +407,15 @@
         .timeline-item.left::after { right: -10px; }
         .timeline-item.right::after { left: -10px; }
 
-        /* Arrow pointers for timeline cards */
         .timeline-item.left .card::before {
             content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1;
             right: -15px; border: medium solid var(--bg-card); border-width: 10px 0 10px 15px;
-            border-color: transparent transparent transparent var(--bg-card); /* Match card bg */
+            border-color: transparent transparent transparent var(--bg-card);
         }
         .timeline-item.right .card::before {
             content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1;
             left: -15px; border: medium solid var(--bg-card); border-width: 10px 15px 10px 0;
-            border-color: transparent var(--bg-card) transparent transparent; /* Match card bg */
+            border-color: transparent var(--bg-card) transparent transparent;
         }
         .timeline-item .date {
             font-family: var(--font-code);
@@ -410,7 +435,7 @@
         .portfolio-item .card {
             display: flex;
             flex-direction: column;
-            height: 100%; /* Make cards in a row same height */
+            height: 100%;
         }
         .portfolio-item img {
             width: 100%;
@@ -460,13 +485,13 @@
         #contact .contact-container {
             display: flex;
             gap: 40px;
-            align-items: flex-start; /* Align items to top */
+            align-items: flex-start;
         }
         #contact .contact-form-wrapper, #contact .contact-info-wrapper {
             flex: 1;
         }
         #contact .contact-form-wrapper .card, #contact .contact-info-wrapper .card {
-             width: 100%; /* Ensure cards take full width of their flex item */
+             width: 100%;
         }
 
         .form-group { margin-bottom: 20px; }
@@ -524,7 +549,7 @@
             font-size: 1.5rem;
             color: var(--accent-secondary);
             margin-right: 15px;
-            width: 30px; /* For alignment */
+            width: 30px;
             text-align: center;
         }
         .contact-info-item a {
@@ -538,7 +563,7 @@
         footer {
             text-align: center;
             padding: 30px 0;
-            background-color: #0a0a0a; /* Even darker for footer */
+            background-color: #0a0a0a;
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
@@ -584,7 +609,7 @@
             .hero h1 { font-size: 2.8rem; }
             .hero .subtitle { font-size: 1.5rem; }
             #about .about-content { flex-direction: column; }
-            #about .about-image-container { margin-bottom: 30px; order: -1; /* Image on top */ }
+            #about .about-image-container { margin-bottom: 30px; order: -1; }
             .timeline::after { left: 20px; }
             .timeline-item { width: 100%; padding-left: 50px; padding-right: 10px; }
             .timeline-item.left, .timeline-item.right { left: 0; }
@@ -597,11 +622,89 @@
         }
 
         @media (max-width: 768px) {
-            header .container { flex-direction: column; }
-            header nav { margin-top: 15px; }
-            header nav ul li { margin: 0 10px; }
+            /* Mobile Header & Navigation */
+            header .container {
+                justify-content: flex-start; /* Align toggle and logo to the start */
+            }
+            .mobile-nav-toggle {
+                display: block; /* Show hamburger */
+            }
+            header .logo {
+                font-size: 1.6rem; /* Slightly smaller logo on mobile */
+                /* The logo will naturally sit next to the toggle button */
+            }
+
+            header nav#main-nav {
+                display: block; /* Make nav container a block for positioning */
+                position: fixed; /* Use fixed to overlay content correctly and be independent of header scroll */
+                top: 0; /* Align with top of viewport */
+                left: 0;
+                width: 80%; /* Or a fixed width like 280px */
+                max-width: 300px;
+                height: 100vh; /* Full height */
+                background: var(--bg-header-mobile-nav);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                transform: translateX(-100%);
+                transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+                z-index: 1001; /* Below toggle button, above content */
+                box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+                padding-top: 70px; /* Space for header or close button if inside */
+                will-change: transform; /* Hint for smoother animation */
+                overflow-y: auto; /* Scroll if content overflows */
+            }
+
+            header nav#main-nav.nav-open {
+                transform: translateX(0);
+            }
+
+            header nav#main-nav ul {
+                flex-direction: column; /* Vertical list */
+                align-items: flex-start;
+                width: 100%;
+                padding: 0; /* Reset padding */
+            }
+
+            header nav#main-nav ul li {
+                margin: 0; /* Reset margin */
+                width: 100%;
+                opacity: 0; /* For fade-in animation */
+                animation: fadeInNavItem 0.4s ease forwards;
+            }
+            /* Staggered animation for nav items */
+            header nav#main-nav.nav-open ul li:nth-child(1) { animation-delay: 0.1s; }
+            header nav#main-nav.nav-open ul li:nth-child(2) { animation-delay: 0.15s; }
+            header nav#main-nav.nav-open ul li:nth-child(3) { animation-delay: 0.2s; }
+            header nav#main-nav.nav-open ul li:nth-child(4) { animation-delay: 0.25s; }
+            header nav#main-nav.nav-open ul li:nth-child(5) { animation-delay: 0.3s; }
+
+
+            @keyframes fadeInNavItem {
+                to { opacity: 1; transform: translateX(0); }
+            }
+
+
+            header nav#main-nav ul li a {
+                padding: 15px 30px; /* Generous padding for touch */
+                display: block;
+                border-bottom: 1px solid var(--border-color);
+                font-weight: 400; /* Normal weight for mobile nav items */
+            }
+            header nav#main-nav ul li:last-child a {
+                border-bottom: none;
+            }
+
+            header nav#main-nav ul li a:hover,
+            header nav#main-nav ul li a.active {
+                background-color: rgba(var(--accent-primary-rgb), 0.1);
+                color: var(--accent-primary);
+                text-shadow: none; /* Remove text shadow on mobile nav */
+            }
+            header nav#main-nav ul li a::after { /* Remove underline from desktop style */
+                display: none;
+            }
             
-            .hero { padding-top: 120px; } /* Adjust for taller header on mobile */
+            .hero { padding-top: 90px; } /* Adjusted for single-row mobile header */
             .hero h1 { font-size: 2.2rem; }
             .hero .subtitle { font-size: 1.2rem; }
             .hero img.profile-pic { width: 150px; height: 150px; }
@@ -634,8 +737,12 @@
 <body>
     <header>
         <div class="container">
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
             <a href="#hero" class="logo">CV & <span>Portfolio</span></a>
-            <nav>
+            <nav id="main-nav">
                 <ul>
                     <li><a href="#about" class="nav-link">Giới Thiệu</a></li>
                     <li><a href="#skills" class="nav-link">Kỹ Năng</a></li>
@@ -649,7 +756,6 @@
 
     <section class="hero" id="hero">
         <div class="container hero-content">
-            <!-- Link ảnh của bạn (vuông hoặc tròn, chất lượng tốt) -->
             <img src="./Assest/img/Avatar.png" alt="Ảnh đại diện của bạn" class="profile-pic animate-on-scroll fade-in">
             <h1 class="animate-on-scroll slide-up" style="transition-delay: 0.2s;">Chào bạn, tôi là Nam Trần</h1>
             <p class="subtitle animate-on-scroll slide-up" style="transition-delay: 0.4s;">Sinh viên/Freelancer <span class="typing-text"></span></p>
@@ -676,7 +782,6 @@
                         <p><strong>Giá trị cốt lõi:</strong> Trung thực, Trách nhiệm, Sáng tạo và Không ngừng cải thiện.</p>
                     </div>
                     <div class="about-image-container animate-on-scroll fade-in" style="transition-delay: 0.2s;">
-                        <!-- Một ảnh khác của bạn, có thể là ảnh đời thường hoặc liên quan đến sở thích -->
                         <img src="./Assest/img/image.jpg" alt="Niềm đam mê">
                     </div>
                 </div>
@@ -697,7 +802,6 @@
                                 <li>Tư duy phản biện</li>
                                 <li>Quản lý thời gian</li>
                                 <li>Khả năng thích ứng & Học hỏi nhanh</li>
-                                <!-- Thêm kỹ năng mềm bạn có -->
                             </ul>
                         </div>
                     </div>
@@ -709,7 +813,6 @@
                                 <li>Google Workspace (Docs, Sheets, Slides)</li>
                                 <li>Photoshop, Canva & Premiere Pro cơ bản, Edit video Capcut, </li>
                                 <li>Tiếng Anh: Giao tiếp cơ bản, Đọc hiểu tài liệu chuyên ngành</li>
-                                <!-- Thêm kỹ năng khác -->
                             </ul>
                         </div>
                     </div>
@@ -723,7 +826,6 @@
                                 <li>Sửa chữa, Lắp ráp và lắp đặt máy tính, Camera, Máy in</li>
                                 <li>Thương mại Điện tử</li>
                                 <li>Marketing</li>
-                                <!-- Thêm kiến thức khác -->
                             </ul>
                         </div>
                     </div>
@@ -735,7 +837,6 @@
             <div class="container">
                 <h2 class="section-title animate-on-scroll fade-in">Kinh Nghiệm & Hoạt Động</h2>
                 <div class="timeline">
-                    <!-- Mục 1: Công việc bán thời gian / Thực tập -->
                     <div class="timeline-item left" style="--item-index: 0;">
                         <div class="card">
                             <h3>Nhân viên vận chuyển và phân phối thực thẩm</h3>
@@ -749,7 +850,6 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- Mục 2: Hoạt động ngoại khóa / CLB -->
                     <div class="timeline-item right" style="--item-index: 1;">
                         <div class="card">
                             <h3>Designer</h3>
@@ -762,22 +862,6 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- Mục 3: Dự án học tập nổi bật -->
-                     <!--
-                    <div class="timeline-item left" style="--item-index: 2;">
-                        <div class="card">
-                            <h3>[Tên Dự Án Học Tập/Bài Tập Lớn]</h3>
-                            <span class="date">Môn học [Tên Môn Học] | [Học Kỳ/Năm Học]</span>
-                            <p>Mô tả dự án, vai trò của bạn và kết quả (nếu có). Ví dụ:</p>
-                            <ul>
-                                <li>Thực hiện dự án "Nghiên cứu hành vi người dùng ứng dụng XYZ".</li>
-                                <li>Vai trò: Thu thập dữ liệu, phân tích và viết báo cáo.</li>
-                                <li><strong>Thành quả/Bài học:</strong> Áp dụng kiến thức thống kê, rèn luyện kỹ năng phân tích và làm việc với số liệu.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    -->
-                    <!-- Thêm các mục khác nếu cần -->
                 </div>
             </div>
         </section>
@@ -792,7 +876,6 @@
                 <div class="portfolio-grid">
                     <div class="portfolio-item">
                         <div class="card animate-on-scroll slide-up">
-                            <!-- Ảnh minh họa dự án, có thể là screenshot, mockup -->
                             <img src="./Assest/Project/Product3.jpeg" alt="Ảnh dự án 1">
                             <div class="portfolio-content">
                                 <h3>Website cá nhân đơn giản</h3>
@@ -812,7 +895,6 @@
                     </div>
                     <div class="portfolio-item">
                         <div class="card animate-on-scroll slide-up">
-                            <!-- Ảnh minh họa dự án, có thể là screenshot, mockup -->
                             <img src="./Assest/Project/Product1.jpg" alt="Ảnh dự án 2">
                             <div class="portfolio-content">
                                 <h3>Website Chatbot AI</h3>
@@ -832,7 +914,6 @@
                     </div>
                     <div class="portfolio-item">
                         <div class="card animate-on-scroll slide-up">
-                            <!-- Ảnh minh họa dự án, có thể là screenshot, mockup -->
                             <img src="./Assest/Project/Product2.jpg" alt="Ảnh dự án 3">
                             <div class="portfolio-content">
                                 <h3>Website Tiện ích đơn giản, gọn nhẹ</h3>
@@ -902,7 +983,6 @@
                            </div>
                        </div>
                    </div>
-                    <!-- Thêm dự án khác nếu cần -->
                 </div>
             </div>
         </section>
@@ -918,7 +998,6 @@
                             <p>Điểm GPA hiện tại: 3.9</p>
                             <ul>
                                 <li>Thành tích nổi bật:...</li>
-                                <!--li>Các môn học yêu thích/liên quan đến định hướng: [Liệt kê một vài môn]</li-->
                             </ul>
                         </div>
                     </div>
@@ -929,7 +1008,6 @@
                             <p>Tốt Nghiệp Loại Giỏi</p>
                             <ul>
                                 <li>Thành tích nổi bật:...</li>
-                                <!--li>Các môn học yêu thích/liên quan đến định hướng: [Liệt kê một vài môn]</li-->
                             </ul>
                         </div>
                     </div>
@@ -940,7 +1018,6 @@
                             <p>Thành tích: Học sinh giỏi năm lớp 11 và 12</p>
                         </div>
                     </div>
-                    <!-- Thêm các khóa học online, chứng chỉ khác nếu có -->
                 </div>
             </div>
         </section>
@@ -952,7 +1029,6 @@
                     <div class="contact-form-wrapper animate-on-scroll slide-up">
                         <div class="card">
                             <h3>Gửi Lời Nhắn</h3>
-                            <!-- MODIFIED FORM HERE -->
                             <form action="https://formspree.io/f/xzzryjzq" method="POST">
                                 <div class="form-group">
                                     <label for="name">Họ và Tên:</label>
@@ -960,7 +1036,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email:</label>
-                                    <input type="email" id="email" name="email" required> <!-- Formspree will use this as _replyto -->
+                                    <input type="email" id="email" name="email" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="message">Lời nhắn:</label>
@@ -968,7 +1044,6 @@
                                 </div>
                                 <button type="submit">Gửi Đi <i class="fas fa-paper-plane" style="margin-left: 8px;"></i></button>
                             </form>
-                            <!-- END OF MODIFIED FORM -->
                         </div>
                     </div>
                     <div class="contact-info-wrapper animate-on-scroll slide-up" style="transition-delay: 0.15s;">
@@ -1004,7 +1079,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; <span id="currentYear"></span> <a href="#hero">Nam Trần</a>. Thiết kế với <i class="fas fa-heart" style="color: var(--accent-secondary);"></i> và rất nhiều <i class="fas fa-mug-hot" style="color: var(--accent-primary);"></i>.</p>
+            <p>© <span id="currentYear"></span> <a href="#hero">Nam Trần</a>. Thiết kế với <i class="fas fa-heart" style="color: var(--accent-secondary);"></i> và rất nhiều <i class="fas fa-mug-hot" style="color: var(--accent-primary);"></i>.</p>
             <p>Một sản phẩm của sự Rãnh rỗi và Tò mò.</p>
         </div>
     </footer>
@@ -1032,7 +1107,9 @@
                 charIndex++;
             }
 
-            typingTextElement.textContent = currentText;
+            if (typingTextElement) {
+                typingTextElement.textContent = currentText;
+            }
 
             let typeSpeed = 150;
             if (isDeleting) {
@@ -1040,22 +1117,21 @@
             }
 
             if (!isDeleting && currentText === fullText) {
-                typeSpeed = 2000; // Pause at end
+                typeSpeed = 2000; 
                 isDeleting = true;
             } else if (isDeleting && currentText === '') {
                 isDeleting = false;
                 roleIndex = (roleIndex + 1) % roles.length;
-                typeSpeed = 500; // Pause before start typing new role
+                typeSpeed = 500; 
             }
             setTimeout(type, typeSpeed);
         }
-        // Start typing animation after a delay
+        
         document.addEventListener('DOMContentLoaded', () => {
             if (typingTextElement) {
                 setTimeout(type, 1000);
             }
         });
-
 
         // Scroll-triggered animations using Intersection Observer
         const animatedElements = document.querySelectorAll('.animate-on-scroll, .card, .timeline-item');
@@ -1063,15 +1139,10 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    // Optional: unobserve after animation to save resources
-                    // observer.unobserve(entry.target); 
-                } else {
-                    // Optional: remove class to re-animate on scroll up
-                    // entry.target.classList.remove('is-visible');
                 }
             });
         }, {
-            threshold: 0.1 // Trigger when 10% of the element is visible
+            threshold: 0.1 
         });
 
         animatedElements.forEach(el => {
@@ -1079,29 +1150,34 @@
         });
 
         // Active navigation link highlighting on scroll
-        const navLinks = document.querySelectorAll('header nav ul li a');
-        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('header nav#main-nav ul li a');
+        const sections = document.querySelectorAll('section[id]'); // Ensure sections have IDs
         
         window.addEventListener('scroll', () => {
             let currentSectionId = '';
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.clientHeight;
-                if (pageYOffset >= (sectionTop - sectionHeight / 3) ) {
+                if (pageYOffset >= (sectionTop - header.offsetHeight - sectionHeight / 3) ) { // Adjusted for header height
                     currentSectionId = section.getAttribute('id');
                 }
             });
 
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('href').substring(1) === currentSectionId) {
-                    link.classList.add('active');
+                // Check if href exists and is not just "#"
+                if (link.getAttribute('href') && link.getAttribute('href').length > 1) {
+                    if (link.getAttribute('href').substring(1) === currentSectionId) {
+                        link.classList.add('active');
+                    }
                 }
             });
         });
 
         // Scroll to top button visibility
         const scrollToTopBtn = document.querySelector('.scroll-to-top');
+        const siteHeader = document.querySelector('header'); // For getting header height
+
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 300) {
                 scrollToTopBtn.classList.add('visible');
@@ -1109,6 +1185,34 @@
                 scrollToTopBtn.classList.remove('visible');
             }
         });
+
+        // Mobile Navigation Toggle
+        const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+        const mainNav = document.querySelector('#main-nav');
+        const bodyEl = document.body;
+
+        if (mobileNavToggle && mainNav) {
+            mobileNavToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('nav-open');
+                mobileNavToggle.classList.toggle('nav-open');
+                const isNavOpen = mainNav.classList.contains('nav-open');
+                mobileNavToggle.setAttribute('aria-expanded', isNavOpen);
+                bodyEl.classList.toggle('no-scroll', isNavOpen); // Toggle body scroll lock
+            });
+
+            // Close mobile nav when a link is clicked
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mainNav.classList.contains('nav-open')) {
+                        mainNav.classList.remove('nav-open');
+                        mobileNavToggle.classList.remove('nav-open');
+                        mobileNavToggle.setAttribute('aria-expanded', 'false');
+                        bodyEl.classList.remove('no-scroll');
+                    }
+                });
+            });
+        }
+
     </script>
 </body>
 </html>
