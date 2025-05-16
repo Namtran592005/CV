@@ -611,6 +611,58 @@
             }
         }
 
+        @media (max-width: 600px) {
+            html { font-size: 13.5px; }
+            body { padding: 0; }
+            .container { width: 98%; max-width: 100vw; padding: 0 6px; }
+            header { height: 52px; }
+            header .logo { font-size: 1.05rem; }
+            .mobile-nav-toggle, #theme-toggle { font-size: 1.15rem; padding: 7px; }
+            nav#mobile-nav-menu-actual ul li a { font-size: 1.05rem; padding: 12px 10px; }
+            .hero { padding-top: 62px; padding-bottom: 30px; min-height: 60vh; }
+            .hero img.profile-pic { width: 90px; height: 90px; margin-bottom: 14px; }
+            .hero h1 { font-size: 1.45rem; margin-bottom: 7px; }
+            .hero .subtitle { font-size: 1.01rem; margin-bottom: 10px; }
+            .hero .intro-paragraph { font-size: 0.98rem; margin-bottom: 18px; }
+            .hero .cta-button { padding: 8px 16px; font-size: 0.92rem; margin-top: 8px; }
+            .social-links-hero { margin-top: 18px; }
+            .social-links-hero a { font-size: 1.18rem; margin: 0 7px; }
+            .typing-wrapper, .typing-cursor, .typing-text { font-size: 0.98rem; min-height: 24px; }
+            section { padding: 32px 0; }
+            .section-title { font-size: 1.25rem; margin-bottom: 18px; }
+            .section-subtitle { font-size: 0.95rem; margin: -10px auto 16px auto; }
+            .apple-card { padding: 14px; border-radius: 10px; }
+            .skills-grid, .portfolio-grid, .experience-grid, .contact-container { grid-template-columns: 1fr !important; gap: 14px !important; }
+            .portfolio-item img { height: 120px; }
+            .portfolio-content { padding: 10px; }
+            .portfolio-content h3 { font-size: 1.08rem; }
+            .portfolio-content p { font-size: 0.92rem; }
+            .portfolio-tags .tag { font-size: 0.7rem; padding: 4px 8px; }
+            .portfolio-links a { font-size: 0.92rem; margin-right: 8px; }
+            #about .about-content { gap: 12px; }
+            #about .about-image-container { max-width: 120px; margin: 0 auto 10px auto; }
+            #about .about-text p { font-size: 0.98rem; }
+            #contact .contact-container { gap: 10px; }
+            .form-group input, .form-group textarea { font-size: 0.98rem; padding: 8px 10px; }
+            button[type="submit"].contact-button { padding: 8px 16px; font-size: 0.95rem; }
+            footer { padding: 18px 0; font-size: 0.85rem; }
+            .scroll-to-top { width: 36px; height: 36px; font-size: 0.95rem; bottom: 12px; right: 12px; }
+        }
+        /* Extra small: max-width 480px */
+        @media (max-width: 480px) {
+            html { font-size: 12.5px; }
+            .container { padding: 0 2px; }
+            .hero { padding-top: 48px; }
+            .hero img.profile-pic { width: 68px; height: 68px; }
+            .hero h1 { font-size: 1.08rem; }
+            .typing-wrapper, .typing-cursor, .typing-text { font-size: 0.82rem; min-height: 18px; }
+            .apple-card { padding: 8px; border-radius: 7px; }
+            .portfolio-item img { height: 80px; }
+            .portfolio-content { padding: 6px; }
+            .section-title { font-size: 1.05rem; }
+            .section-subtitle { font-size: 0.85rem; }
+        }
+
         /* Animation classes */
         .animate-on-scroll { 
              opacity: 0;
@@ -662,7 +714,8 @@
             50%, 100% { opacity: 0; }
         }
         @media (max-width: 600px) {
-            .typing-wrapper, .typing-cursor, .typing-text { font-size: 1.08rem; }
+            .typing-wrapper, .typing-cursor, .typing-text { font-size: 0.98rem !important; min-height: 24px; }
+            .typing-wrapper { margin-bottom: 10px; margin-top: 0.2rem; padding: 0 2px; }
         }
 
     </style>
