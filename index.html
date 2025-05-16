@@ -3,29 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV & Portfolio | Nam Trần</title>
+    <title>Nam Trần | CV & Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         :root {
-            --bg-dark: #121212;
-            --bg-card: rgba(30, 30, 45, 0.6);
-            --bg-card-hover: rgba(45, 45, 65, 0.7);
-            --text-primary: #e0e0e0;
-            --text-secondary: #b0b0b0;
-            --accent-primary: #00aeff;
-            --accent-primary-rgb: 0, 174, 255; /* For rgba usage */
-            --accent-secondary: #ff4081;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --shadow-color: rgba(0, 174, 255, 0.3);
-            --bg-header-mobile-nav: rgba(22, 22, 30, 0.97); /* Slightly adjusted for mobile nav bg */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F5F5F7; /* Apple's light gray */
+            --bg-card: #FFFFFF;
+            --text-primary: #1D1D1F; /* Apple's black */
+            --text-secondary: #6E6E73; /* Apple's gray */
+            --text-tertiary: #86868B;
+            --accent-primary: #007AFF; /* Apple's blue */
+            --accent-primary-rgb: 0, 122, 255;
+            --border-color: #D2D2D7; /* Apple's light border */
+            --border-color-subtle: #EAEAEA; /* Even subtler border */
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --shadow-color-hover: rgba(0, 0, 0, 0.1);
 
-            --font-heading: 'Poppins', sans-serif;
-            --font-body: 'Poppins', sans-serif;
-            --font-code: 'Roboto Mono', monospace;
+            --font-primary: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            
+            --header-height: 68px;
+            --border-radius-s: 8px;
+            --border-radius-m: 12px;
+            --border-radius-l: 18px;
+
+            --transition-cubic: cubic-bezier(0.4, 0, 0.2, 1); /* Material Design like fast-out-slow-in */
+            --transition-duration: 0.3s;
         }
 
         * {
@@ -36,135 +43,137 @@
 
         html {
             scroll-behavior: smooth;
+            font-size: 16px; 
         }
 
         body {
-            font-family: var(--font-body);
-            line-height: 1.7;
-            background-color: var(--bg-dark);
+            font-family: var(--font-primary);
+            line-height: 1.65;
+            background-color: var(--bg-primary);
             color: var(--text-primary);
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        body.no-scroll { /* To prevent scrolling when mobile nav is open */
+        body.no-scroll {
             overflow-y: hidden;
         }
 
         .container {
             width: 90%;
-            max-width: 1200px;
+            max-width: 1080px; /* Common Apple max-width */
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 0 20px;
+        }
+
+        /* Focus Visible Polyfill - or use PostCSS plugin */
+        :focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+            border-radius: var(--border-radius-s);
+        }
+        :focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        /* Global Link Styling */
+        a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: color var(--transition-duration) var(--transition-cubic);
+        }
+        a:hover {
+            /* color: #0056b3; */ /* Darker blue or just underline */
+            text-decoration: underline;
         }
 
         /* Header */
         header {
-            background: rgba(18, 18, 18, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 1rem 0;
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            transition: background-color 0.3s ease;
+            border-bottom: 1px solid var(--border-color-subtle);
+            transition: background-color var(--transition-duration) var(--transition-cubic), box-shadow var(--transition-duration) var(--transition-cubic);
         }
+        /* header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 1px 3px var(--shadow-color);
+        } */
 
         header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: relative; /* For mobile nav absolute positioning context */
         }
         
         .mobile-nav-toggle {
-            display: none; /* Hidden on desktop */
+            display: none;
             background: none;
             border: none;
             color: var(--text-primary);
-            font-size: 1.6rem;
+            font-size: 1.5rem; 
             cursor: pointer;
-            z-index: 1002; /* Above nav, below potential overlay */
-            padding: 8px 12px;
-            margin-right: 10px; /* Space between toggle and logo */
+            z-index: 1002;
+            padding: 10px;
+            margin-right: -10px; /* To align visually */
+            border-radius: var(--border-radius-s);
         }
         .mobile-nav-toggle .fa-times { display: none; }
         .mobile-nav-toggle.nav-open .fa-bars { display: none; }
-        .mobile-nav-toggle.nav-open .fa-times { display: block; color: var(--accent-secondary); }
+        .mobile-nav-toggle.nav-open .fa-times { display: block; color: var(--text-primary); }
 
 
         header .logo {
-            font-family: var(--font-heading);
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--accent-primary);
+            font-size: 1.5rem; /* Apple-like logo size */
+            font-weight: 600;
+            color: var(--text-primary);
             text-decoration: none;
-            z-index: 1001; /* Ensure logo is clickable over nav elements on mobile if overlaps */
+            z-index: 1001;
         }
-        header .logo span { color: var(--accent-secondary); }
-
-        header nav#main-nav { /* Added ID for specific targeting */
-            /* Desktop styles */
-        }
+        header .logo span { color: var(--accent-primary); font-weight: 700; }
 
         header nav#main-nav ul {
             list-style: none;
-            display: flex; /* Desktop: horizontal */
+            display: flex;
         }
 
         header nav#main-nav ul li {
-            margin-left: 25px; /* Desktop: spacing */
+            margin-left: 28px; /* Apple-like spacing */
         }
 
         header nav#main-nav ul li a {
             color: var(--text-primary);
             text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
-            position: relative;
-            padding-bottom: 5px;
+            font-weight: 500;
+            font-size: 0.95rem; /* Apple nav font size */
+            transition: color var(--transition-duration) var(--transition-cubic);
+            padding: 5px 0;
         }
-        header nav#main-nav ul li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            transition: width 0.3s ease;
-        }
-
         header nav#main-nav ul li a:hover, 
         header nav#main-nav ul li a.active {
             color: var(--accent-primary);
-            text-shadow: 0 0 5px var(--accent-primary);
-        }
-        header nav#main-nav ul li a:hover::after, 
-        header nav#main-nav ul li a.active::after {
-            width: 100%;
         }
 
         /* Hero Section */
         .hero {
-            min-height: 100vh;
+            min-height: 85vh; /* Not always full screen, but substantial */
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding-top: 80px; /* Account for fixed header */
-            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a2e 100%);
-            position: relative;
+            padding-top: calc(var(--header-height) + 60px);
+            padding-bottom: 80px;
+            background-color: var(--bg-primary);
             overflow: hidden;
-        }
-        .hero::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.025; /* Slightly reduced for subtlety */
-            pointer-events: none;
         }
 
         .hero-content {
@@ -173,75 +182,77 @@
         }
         
         .hero img.profile-pic {
-            width: 200px;
-            height: 200px;
+            width: 160px; /* Smaller, more refined */
+            height: 160px;
             border-radius: 50%;
             object-fit: cover;
-            border: 5px solid var(--accent-primary);
             margin-bottom: 30px;
-            box-shadow: 0 0 30px var(--shadow-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Softer shadow */
+            transition: transform var(--transition-duration) var(--transition-cubic);
         }
         .hero img.profile-pic:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 45px var(--shadow-color);
+            transform: scale(1.03);
         }
 
         .hero h1 {
-            font-family: var(--font-heading);
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: textShine 5s linear infinite;
-        }
-
-        @keyframes textShine {
-            to { background-position: 200% center; }
+            font-size: 3.5rem; /* Large and impactful */
+            font-weight: 700; /* Bold for Apple H1 */
+            letter-spacing: -0.02em; /* Common Apple tracking */
+            color: var(--text-primary);
+            margin-bottom: 12px;
         }
 
         .hero .subtitle {
-            font-size: 1.8rem;
+            font-size: 1.75rem; /* Clear but secondary */
             color: var(--text-secondary);
-            margin-bottom: 20px;
-            font-weight: 300;
+            margin-bottom: 25px;
+            font-weight: 400;
+            max-width: 600px;
         }
         .hero .subtitle .typing-text {
             font-weight: 600;
-            color: var(--accent-primary);
+            color: var(--text-primary); /* Stronger typing text */
         }
+         .hero .intro-paragraph {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto 30px auto;
+            line-height: 1.7;
+        }
+
 
         .hero .cta-button {
             display: inline-block;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            background-color: var(--accent-primary);
             color: #fff;
-            padding: 12px 30px;
+            padding: 12px 28px;
             text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            margin-top: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-radius: var(--border-radius-m); /* Rounded buttons */
+            font-weight: 500;
+            font-size: 1.05rem;
+            margin-top: 15px;
+            transition: background-color var(--transition-duration) var(--transition-cubic), transform var(--transition-duration) var(--transition-cubic);
         }
         .hero .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px var(--shadow-color);
+            background-color: #0056b3; /* Darker blue */
+            text-decoration: none;
+            transform: translateY(-2px);
         }
 
         .social-links-hero {
-            margin-top: 30px;
+            margin-top: 40px;
         }
         .social-links-hero a {
-            color: var(--text-secondary);
-            margin: 0 15px;
-            font-size: 1.8rem;
-            transition: color 0.3s ease, transform 0.3s ease;
+            color: var(--text-tertiary); /* Subtle social links */
+            margin: 0 12px;
+            font-size: 1.5rem;
+            transition: color var(--transition-duration) var(--transition-cubic), transform var(--transition-duration) var(--transition-cubic);
         }
         .social-links-hero a:hover {
-            color: var(--accent-primary);
-            transform: scale(1.2);
+            color: var(--text-primary);
+            text-decoration: none;
+            transform: scale(1.1);
         }
 
         /* General Section Styling */
@@ -249,294 +260,242 @@
             padding: 80px 0;
             position: relative;
         }
-        section:nth-child(even) {
-            background-color: #16161e;
+        section:nth-child(even) { /* Alternating background */
+            background-color: var(--bg-secondary);
         }
+
 
         .section-title {
             text-align: center;
-            font-family: var(--font-heading);
-            font-size: 2.8rem;
-            margin-bottom: 60px;
+            font-size: 2.5rem; /* Apple-like section title */
+            font-weight: 600;
+            letter-spacing: -0.015em;
+            margin-bottom: 60px; /* Generous spacing */
             color: var(--text-primary);
-            position: relative;
-            padding-bottom: 15px;
         }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 2px;
+        .section-subtitle { /* Optional subtitle for sections */
+            text-align:center; 
+            max-width: 700px; 
+            margin: -40px auto 50px auto; /* Adjust if title margin changes */
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            line-height: 1.7;
         }
 
-        /* Card Styling (Glassmorphism) */
-        .card {
+
+        /* Card Styling (Apple-like) */
+        .apple-card {
             background: var(--bg-card);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
+            border: 1px solid var(--border-color-subtle);
+            border-radius: var(--border-radius-l); /* Generous rounding */
             padding: 30px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-            transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), 
-                        background-color 0.35s ease, 
-                        box-shadow 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 12px var(--shadow-color);
+            transition: transform var(--transition-duration) var(--transition-cubic), 
+                        box-shadow var(--transition-duration) var(--transition-cubic);
             opacity: 0; 
             transform: translateY(30px);
         }
-        .card.is-visible {
+        .apple-card.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .card:hover {
-            transform: translateY(-5px) scale(1.02);
-            background: var(--bg-card-hover);
-            box-shadow: 0 12px 40px 0 var(--shadow-color);
+        .apple-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--shadow-color-hover);
         }
-        .card h3 {
-            color: var(--accent-primary);
-            margin-bottom: 15px;
-            font-size: 1.6rem;
+        .apple-card h3 { /* Card titles */
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            font-size: 1.35rem;
+            font-weight: 600;
         }
-        .card p, .card ul li {
+        .apple-card p, .apple-card ul li {
             color: var(--text-secondary);
             font-size: 1rem;
+            line-height: 1.7;
         }
-        .card ul {
+        .apple-card ul {
             list-style: none;
             padding-left: 0;
         }
-        .card ul li {
-            margin-bottom: 10px;
+        .apple-card ul li {
+            margin-bottom: 8px;
             position: relative;
-            padding-left: 25px;
+            padding-left: 22px;
         }
-        .card ul li::before {
-            content: "\f058"; 
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            color: var(--accent-secondary);
+        .apple-card ul li::before { /* Cleaner list bullets */
+            content: "•"; 
+            color: var(--accent-primary);
             position: absolute;
             left: 0;
-            top: 2px;
+            top: -1px; /* Adjust alignment */
+            font-size: 1.4em; /* Larger bullet for visibility */
         }
 
         /* About Me Section */
         #about .about-content {
-            display: flex;
-            gap: 40px;
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* Text larger than image */
+            gap: 60px;
             align-items: center;
         }
-        #about .about-text { flex: 2; }
-        #about .about-image-container {
-            flex: 1;
-            text-align: center;
-        }
         #about .about-image-container img {
-            max-width: 300px;
-            width: 100%;
-            border-radius: 10px;
-            border: 3px solid var(--accent-secondary);
-            box-shadow: 0 0 20px rgba(255, 64, 129, 0.4);
+            max-width: 100%;
+            border-radius: var(--border-radius-m);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
         }
-        #about .about-text p { margin-bottom: 15px; }
+        #about .about-text p { margin-bottom: 16px; font-size: 1.05rem; }
+        #about .about-text strong { color: var(--text-primary); font-weight: 600; }
 
         /* Skills Section */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .skill-category .apple-card { padding: 25px; }
+        .skill-category h3 { font-size: 1.25rem; display: flex; align-items: center; }
+        .skill-category h3 i { margin-right: 12px; color: var(--accent-primary); font-size: 1.1em; width: 20px; text-align: center;}
+        .skill-category ul li::before { content: "›"; font-size: 1.3em; top: 0; } /* Chevron style */
+
+
+        /* Experience & Activities Section (Timeline Reimagined) */
+        .experience-grid { /* Replaces timeline for a cleaner, card-based look */
+            display: grid;
             gap: 30px;
         }
-        .skill-category .card { padding: 25px; }
-        .skill-category h3 { font-size: 1.4rem; }
-        .skill-category ul li { font-size: 0.95rem; }
-        .skill-category ul li::before { content: "\f101"; top: 3px; }
-
-        /* Experience & Activities Section (Timeline Style) */
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
+        .experience-item .apple-card h3 { /* Job/Role Title */
+             font-size: 1.5rem;
         }
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 4px;
-            background: linear-gradient(var(--accent-primary), var(--accent-secondary));
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -2px;
-            border-radius: 2px;
-        }
-        .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            width: 50%;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        .timeline-item.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-            transition-delay: calc(var(--item-index, 0) * 0.15s);
-        }
-        .timeline-item .card {
-            position: relative;
-        }
-        .timeline-item::after { 
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: var(--bg-dark);
-            border: 4px solid var(--accent-primary);
-            top: 25px;
-            border-radius: 50%;
-            z-index: 1;
-            box-shadow: 0 0 10px var(--accent-primary);
-        }
-        .timeline-item.left { left: 0; }
-        .timeline-item.right { left: 50%; }
-        .timeline-item.left::after { right: -10px; }
-        .timeline-item.right::after { left: -10px; }
-
-        .timeline-item.left .card::before {
-            content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1;
-            right: -15px; border: medium solid var(--bg-card); border-width: 10px 0 10px 15px;
-            border-color: transparent transparent transparent var(--bg-card);
-        }
-        .timeline-item.right .card::before {
-            content: " "; height: 0; position: absolute; top: 22px; width: 0; z-index: 1;
-            left: -15px; border: medium solid var(--bg-card); border-width: 10px 15px 10px 0;
-            border-color: transparent var(--bg-card) transparent transparent;
-        }
-        .timeline-item .date {
-            font-family: var(--font-code);
-            color: var(--accent-secondary);
-            font-weight: bold;
+        .experience-item .date {
+            font-family: var(--font-primary); /* Use main font */
+            color: var(--text-tertiary); /* Subtler date */
+            font-weight: 500;
             font-size: 0.9rem;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             display: block;
+            text-transform: uppercase; /* Optional: for style */
+            letter-spacing: 0.05em;
         }
+
 
         /* Portfolio/Projects Section */
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            /* grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); */
+            grid-template-columns: repeat(2, 1fr); /* Default to 2 columns for Apple feel */
             gap: 30px;
         }
-        .portfolio-item .card {
+        .portfolio-item .apple-card {
             display: flex;
             flex-direction: column;
             height: 100%;
+            padding: 0; /* Card padding handled by content div */
+            overflow: hidden; /* For image */
         }
         .portfolio-item img {
             width: 100%;
-            height: 200px;
+            height: 250px; /* Taller project images */
             object-fit: cover;
-            border-radius: 10px 10px 0 0;
-            border-bottom: 2px solid var(--accent-primary);
+            display: block; /* Remove extra space below image */
+            /* border-radius: var(--border-radius-l) var(--border-radius-l) 0 0; Remove if padding covers it */
+            /* border-bottom: 1px solid var(--border-color-subtle); */
         }
         .portfolio-content {
-            padding: 20px;
+            padding: 25px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
+        .portfolio-content h3 { font-size: 1.6rem; margin-bottom: 8px; }
         .portfolio-content p {
             flex-grow: 1;
             margin-bottom: 15px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
         }
         .portfolio-tags {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
         .portfolio-tags .tag {
             display: inline-block;
-            background-color: rgba(0, 174, 255, 0.15);
+            background-color: rgba(var(--accent-primary-rgb), 0.1);
             color: var(--accent-primary);
-            padding: 4px 10px;
-            border-radius: 15px;
+            padding: 6px 12px;
+            border-radius: var(--border-radius-s);
             font-size: 0.8rem;
-            margin-right: 5px;
-            margin-bottom: 5px;
-            font-family: var(--font-code);
+            font-weight: 500;
+            margin-right: 8px;
+            margin-bottom: 8px;
         }
         .portfolio-links a {
-            color: var(--accent-secondary);
-            text-decoration: none;
-            margin-right: 15px;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-        .portfolio-links a:hover {
             color: var(--accent-primary);
-            text-decoration: underline;
+            text-decoration: none;
+            margin-right: 18px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: inline-flex; /* Align icon and text */
+            align-items: center;
         }
-        .portfolio-links a i { margin-right: 5px; }
+        .portfolio-links a i { margin-right: 6px; }
+        .portfolio-links a:hover { text-decoration: underline; }
 
         /* Contact Section */
         #contact .contact-container {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 40px;
             align-items: flex-start;
         }
-        #contact .contact-form-wrapper, #contact .contact-info-wrapper {
-            flex: 1;
-        }
-        #contact .contact-form-wrapper .card, #contact .contact-info-wrapper .card {
-             width: 100%;
-        }
+        #contact .apple-card { width: 100%; }
 
         .form-group { margin-bottom: 20px; }
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: var(--text-secondary);
-            font-weight: 600;
+            font-weight: 500;
+            font-size: 0.9rem;
         }
         .form-group input, .form-group textarea {
             width: 100%;
-            padding: 12px;
-            background-color: rgba(255,255,255,0.05);
+            padding: 12px 15px;
+            background-color: var(--bg-secondary); /* Light gray input bg */
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: var(--border-radius-m);
             color: var(--text-primary);
-            font-family: var(--font-body);
+            font-family: var(--font-primary);
             font-size: 1rem;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: border-color var(--transition-duration) var(--transition-cubic), box-shadow var(--transition-duration) var(--transition-cubic);
         }
         .form-group input:focus, .form-group textarea:focus {
             outline: none;
             border-color: var(--accent-primary);
-            box-shadow: 0 0 10px var(--shadow-color);
+            box-shadow: 0 0 0 3px rgba(var(--accent-primary-rgb), 0.2);
         }
         .form-group textarea { min-height: 120px; resize: vertical; }
         
-        button[type="submit"] {
+        button[type="submit"].contact-button { /* Specific class for contact button */
             display: inline-block;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            background-color: var(--accent-primary);
             color: #fff;
-            padding: 12px 30px;
+            padding: 12px 28px;
             border: none;
-            border-radius: 50px;
-            font-weight: 600;
+            border-radius: var(--border-radius-m);
+            font-weight: 500;
+            font-size: 1rem;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: background-color var(--transition-duration) var(--transition-cubic), transform var(--transition-duration) var(--transition-cubic);
         }
-        button[type="submit"]:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px var(--shadow-color);
+        button[type="submit"].contact-button:hover {
+            background-color: #0056b3; /* Darker blue */
+            transform: translateY(-2px);
         }
 
         .contact-info-wrapper h3 {
-            color: var(--accent-primary);
+            color: var(--text-primary);
             margin-bottom: 15px;
         }
         .contact-info-item {
@@ -544,55 +503,60 @@
             align-items: center;
             margin-bottom: 15px;
             color: var(--text-secondary);
+            font-size: 1rem;
         }
         .contact-info-item i {
-            font-size: 1.5rem;
-            color: var(--accent-secondary);
-            margin-right: 15px;
-            width: 30px;
+            font-size: 1.2rem; /* Smaller, cleaner icons */
+            color: var(--text-tertiary); /* Subtle icon color */
+            margin-right: 12px;
+            width: 24px;
             text-align: center;
         }
         .contact-info-item a {
             color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s ease;
         }
         .contact-info-item a:hover { color: var(--accent-primary); }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 30px 0;
-            background-color: #0a0a0a;
-            color: var(--text-secondary);
+            padding: 50px 0;
+            background-color: var(--bg-secondary); /* Light gray footer */
+            border-top: 1px solid var(--border-color-subtle);
+            color: var(--text-tertiary); /* Subtler footer text */
             font-size: 0.9rem;
         }
+        footer p { margin-bottom: 5px; }
         footer a {
-            color: var(--accent-primary);
-            text-decoration: none;
+            color: var(--text-secondary); /* Slightly darker link in footer */
+            font-weight: 500;
         }
-        footer a:hover { text-decoration: underline;}
+        footer a:hover { color: var(--accent-primary); text-decoration: underline;}
+        footer .fa-heart { color: var(--accent-primary); }
 
         /* Scroll to top button */
         .scroll-to-top {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--accent-primary);
+            bottom: 25px;
+            right: 25px;
+            background: rgba(0,0,0,0.6); /* Darker, translucent */
             color: white;
-            width: 45px;
-            height: 45px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             opacity: 0;
             visibility: hidden;
             transform: translateY(20px);
-            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+            transition: opacity var(--transition-duration) var(--transition-cubic), 
+                        visibility var(--transition-duration) var(--transition-cubic), 
+                        transform var(--transition-duration) var(--transition-cubic), 
+                        background-color var(--transition-duration) var(--transition-cubic);
             z-index: 999;
         }
         .scroll-to-top.visible {
@@ -601,188 +565,168 @@
             transform: translateY(0);
         }
         .scroll-to-top:hover {
-            background: var(--accent-secondary);
+            background: rgba(0,0,0,0.8);
+            text-decoration: none;
+            color: white;
         }
 
         /* Responsive Design */
         @media (max-width: 992px) {
-            .hero h1 { font-size: 2.8rem; }
+            html { font-size: 15px; }
+            .container { max-width: 900px; }
+            .hero h1 { font-size: 3rem; }
             .hero .subtitle { font-size: 1.5rem; }
-            #about .about-content { flex-direction: column; }
-            #about .about-image-container { margin-bottom: 30px; order: -1; }
-            .timeline::after { left: 20px; }
-            .timeline-item { width: 100%; padding-left: 50px; padding-right: 10px; }
-            .timeline-item.left, .timeline-item.right { left: 0; }
-            .timeline-item.left::after, .timeline-item.right::after { left: 10px; }
-            .timeline-item.left .card::before, .timeline-item.right .card::before {
-                left: -15px; border-width: 10px 15px 10px 0;
-                border-color: transparent var(--bg-card) transparent transparent;
-            }
-             #contact .contact-container { flex-direction: column; }
+            #about .about-content { grid-template-columns: 1fr; gap: 40px; }
+            #about .about-image-container { order: -1; margin: 0 auto 30px auto; max-width: 350px;}
+            .portfolio-grid { grid-template-columns: 1fr; } /* Stack projects earlier */
         }
 
         @media (max-width: 768px) {
-            /* Mobile Header & Navigation */
-            header .container {
-                justify-content: flex-start; /* Align toggle and logo to the start */
-            }
+            html { font-size: 14.5px; }
+            :root { --header-height: 60px; }
+            .container { padding: 0 15px; }
+            .hero { padding-top: calc(var(--header-height) + 40px); padding-bottom: 60px; min-height: 75vh; }
+            .hero img.profile-pic { width: 130px; height: 130px; margin-bottom: 25px;}
+            .hero h1 { font-size: 2.4rem; }
+            .hero .subtitle { font-size: 1.3rem; margin-bottom: 20px; }
+            .hero .intro-paragraph { font-size: 1rem; }
+            .hero .cta-button { padding: 10px 24px; font-size: 0.95rem; }
+
+            .section-title { font-size: 2rem; margin-bottom: 40px; }
+            .section-subtitle { font-size: 1rem; margin: -25px auto 30px auto; }
+            section { padding: 60px 0; }
+            
             .mobile-nav-toggle {
-                display: block; /* Show hamburger */
+                display: flex; /* Use flex for centering icon */
+                align-items: center;
+                justify-content: center;
             }
             header .logo {
-                font-size: 1.6rem; /* Slightly smaller logo on mobile */
-                /* The logo will naturally sit next to the toggle button */
+                font-size: 1.3rem;
             }
 
             header nav#main-nav {
-                display: block; /* Make nav container a block for positioning */
-                position: fixed; /* Use fixed to overlay content correctly and be independent of header scroll */
-                top: 0; /* Align with top of viewport */
+                display: block; 
+                position: fixed;
+                top: var(--header-height); 
                 left: 0;
-                width: 80%; /* Or a fixed width like 280px */
-                max-width: 300px;
-                height: 100vh; /* Full height */
-                background: var(--bg-header-mobile-nav);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                transform: translateX(-100%);
-                transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-                z-index: 1001; /* Below toggle button, above content */
-                box-shadow: 5px 0 15px rgba(0,0,0,0.2);
-                padding-top: 70px; /* Space for header or close button if inside */
-                will-change: transform; /* Hint for smoother animation */
-                overflow-y: auto; /* Scroll if content overflows */
+                width: 100%; 
+                height: calc(100vh - var(--header-height)); 
+                background: var(--bg-primary); /* Solid white */
+                transform: translateY(-100%); /* Slide from top */
+                opacity: 0;
+                visibility: hidden;
+                transition: transform 0.35s var(--transition-cubic), opacity 0.35s var(--transition-cubic), visibility 0.35s;
+                z-index: 999; 
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                padding-top: 20px;
+                overflow-y: auto;
             }
 
             header nav#main-nav.nav-open {
-                transform: translateX(0);
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
             }
 
             header nav#main-nav ul {
-                flex-direction: column; /* Vertical list */
-                align-items: flex-start;
+                flex-direction: column;
+                align-items: center; /* Center nav items */
                 width: 100%;
-                padding: 0; /* Reset padding */
+                padding: 20px 0; 
             }
 
             header nav#main-nav ul li {
-                margin: 0; /* Reset margin */
+                margin: 0; 
                 width: 100%;
-                opacity: 0; /* For fade-in animation */
-                animation: fadeInNavItem 0.4s ease forwards;
+                text-align: center;
             }
-            /* Staggered animation for nav items */
-            header nav#main-nav.nav-open ul li:nth-child(1) { animation-delay: 0.1s; }
-            header nav#main-nav.nav-open ul li:nth-child(2) { animation-delay: 0.15s; }
-            header nav#main-nav.nav-open ul li:nth-child(3) { animation-delay: 0.2s; }
-            header nav#main-nav.nav-open ul li:nth-child(4) { animation-delay: 0.25s; }
-            header nav#main-nav.nav-open ul li:nth-child(5) { animation-delay: 0.3s; }
-
-
-            @keyframes fadeInNavItem {
-                to { opacity: 1; transform: translateX(0); }
-            }
-
-
+            
             header nav#main-nav ul li a {
-                padding: 15px 30px; /* Generous padding for touch */
+                padding: 15px 30px; 
                 display: block;
-                border-bottom: 1px solid var(--border-color);
-                font-weight: 400; /* Normal weight for mobile nav items */
+                font-size: 1.2rem; /* Larger for mobile nav */
+                font-weight: 500;
+                border-bottom: 1px solid var(--border-color-subtle);
             }
             header nav#main-nav ul li:last-child a {
                 border-bottom: none;
             }
-
             header nav#main-nav ul li a:hover,
             header nav#main-nav ul li a.active {
-                background-color: rgba(var(--accent-primary-rgb), 0.1);
+                background-color: var(--bg-secondary);
                 color: var(--accent-primary);
-                text-shadow: none; /* Remove text shadow on mobile nav */
-            }
-            header nav#main-nav ul li a::after { /* Remove underline from desktop style */
-                display: none;
             }
             
-            .hero { padding-top: 90px; } /* Adjusted for single-row mobile header */
-            .hero h1 { font-size: 2.2rem; }
-            .hero .subtitle { font-size: 1.2rem; }
-            .hero img.profile-pic { width: 150px; height: 150px; }
-
-            .section-title { font-size: 2.2rem; }
-            .skills-grid { grid-template-columns: 1fr; }
-            .portfolio-grid { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr; gap: 20px; }
+            #contact .contact-container { grid-template-columns: 1fr; gap: 30px; }
         }
 
         /* Animation classes */
-        .fade-in {
-            opacity: 0;
-            transition: opacity 0.8s ease-out;
+        .animate-on-scroll { /* Generic animation hook */
+             opacity: 0;
+             transform: translateY(20px); /* Subtle up-slide */
+             transition: opacity 0.6s var(--transition-cubic), transform 0.6s var(--transition-cubic);
         }
-        .fade-in.is-visible {
-            opacity: 1;
-        }
-
-        .slide-up {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .slide-up.is-visible {
+        .animate-on-scroll.is-visible,
+        .apple-card.is-visible /* Apply to card directly too */
+         {
             opacity: 1;
             transform: translateY(0);
         }
+
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
-                <i class="fas fa-bars" aria-hidden="true"></i>
-                <i class="fas fa-times" aria-hidden="true"></i>
-            </button>
-            <a href="#hero" class="logo">CV & <span>Portfolio</span></a>
+            <a href="#hero" class="logo">Portfolio & CV</a>
             <nav id="main-nav">
                 <ul>
                     <li><a href="#about" class="nav-link">Giới Thiệu</a></li>
                     <li><a href="#skills" class="nav-link">Kỹ Năng</a></li>
-                    <li><a href="#experience" class="nav-link">Hoạt Động</a></li>
+                    <li><a href="#experience" class="nav-link">Kinh Nghiệm</a></li>
                     <li><a href="#projects" class="nav-link">Dự Án</a></li>
+                    <li><a href="#education" class="nav-link">Học Vấn</a></li>
                     <li><a href="#contact" class="nav-link">Liên Hệ</a></li>
                 </ul>
             </nav>
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
         </div>
     </header>
 
-    <section class="hero" id="hero">
-        <div class="container hero-content">
-            <img src="./Assest/img/Avatar.png" alt="Ảnh đại diện của bạn" class="profile-pic animate-on-scroll fade-in">
-            <h1 class="animate-on-scroll slide-up" style="transition-delay: 0.2s;">Chào bạn, tôi là Nam Trần</h1>
-            <p class="subtitle animate-on-scroll slide-up" style="transition-delay: 0.4s;">Sinh viên/Freelancer <span class="typing-text"></span></p>
-            <p class="animate-on-scroll slide-up" style="transition-delay: 0.6s; color: var(--text-secondary); max-width: 600px; margin: 0 auto 25px auto;">
-                Luôn sẵn sàng học hỏi, khám phá công nghệ mới và đóng góp vào những dự án ý nghĩa.
-            </p>
-            <a href="#projects" class="cta-button animate-on-scroll slide-up" style="transition-delay: 0.8s;">Xem Dự Án Của Tôi</a>
-            <div class="social-links-hero animate-on-scroll fade-in" style="transition-delay: 1s;">
-                <a href="https://github.com/Namtran592005" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://fb.com/Namtran5905" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
-            </div>
-        </div>
-    </section>
-
     <main>
+        <section class="hero" id="hero">
+            <div class="container hero-content">
+                <img src="./Assest/img/Avatar.png" alt="Ảnh đại diện của Nam Trần" class="profile-pic animate-on-scroll">
+                <h1 class="animate-on-scroll" style="transition-delay: 0.1s;">Chào bạn, Mình là Nam Trần.</h1>
+                <p class="subtitle animate-on-scroll" style="transition-delay: 0.2s;">ㅤㅤㅤㅤㅤㅤ<span class="typing-text"></span></p>
+                <p class="intro-paragraph animate-on-scroll" style="transition-delay: 0.3s;">
+                khám phá xây dựng giải pháp để tạo ra những sản phẩm ý nghĩa.
+                </p>
+                <a href="#projects" class="cta-button animate-on-scroll" style="transition-delay: 0.4s;">Xem Dự Án Của Mình</a>
+                <div class="social-links-hero animate-on-scroll" style="transition-delay: 0.5s;">
+                    <a href="https://github.com/Namtran592005" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://fb.com/Namtran5905" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+    
+                </div>
+            </div>
+        </section>
+
         <section id="about">
             <div class="container">
-                <h2 class="section-title animate-on-scroll fade-in">Về Bản Thân</h2>
+                <h2 class="section-title animate-on-scroll">Về Bản Thân</h2>
                 <div class="about-content">
-                    <div class="about-text animate-on-scroll slide-up">
-                        <p>Xin chào! Tôi là Nam Trần, hiện đang là sinh viên năm 2 tại Trường Cao đẳng nghề Trà Vinh, chuyên ngành Công nghệ Thông tin.</p>
-                        <p>Dù chưa có nhiều kinh nghiệm chuyên sâu, tôi luôn mang trong mình một tinh thần <strong>ham học hỏi, khả năng thích ứng nhanh và một thái độ làm việc tích cực</strong>. Các công việc bán thời gian và hoạt động ngoại khóa đã giúp tôi rèn luyện nhiều kỹ năng mềm quan trọng.</p>
-                        <p>Mục tiêu của tôi là được áp dụng kiến thức đã học và phát triển bản thân trong một môi trường năng động, chuyên nghiệp. Tôi đặc biệt quan tâm đến Công nghệ web, marketing, thiết kế, phân tích dữ liệu và mong muốn được đóng góp vào các dự án thực tế.</p>
-                        <p><strong>Giá trị cốt lõi:</strong> Trung thực, Trách nhiệm, Sáng tạo và Không ngừng cải thiện.</p>
+                    <div class="about-text animate-on-scroll" style="transition-delay: 0.1s;">
+                        <p>Xin chào! Mình là Nam Trần một sinh viên và là người làm bán thời gian.</p>
+                        <p>Dù chưa có nhiều kinh nghiệm chuyên sâu, tôi luôn mang trong mình một tinh thần ham học hỏi,<strong> khả năng thích ứng nhanh và một thái độ làm việc tích cực.</strong> Các công việc bán thời gian và hoạt động ngoại khóa đã giúp tôi rèn luyện nhiều kỹ năng mềm quan trọng.</p>
+                        <p>Mục tiêu của Mình là được cống hiến và phát triển trong một môi trường công nghệ sáng tạo, nơi Mình có thể áp dụng kiến thức, đối mặt với thử thách và đóng góp vào sự thành công của các dự án và sẵn sàng khám phá các cơ hội mới.</p>
                     </div>
-                    <div class="about-image-container animate-on-scroll fade-in" style="transition-delay: 0.2s;">
-                        <img src="./Assest/img/image.jpg" alt="Niềm đam mê">
+                    <div class="about-image-container animate-on-scroll" style="transition-delay: 0.2s;">
+                        <img src="./Assest/img/image.jpg" alt="Nam Trần - Đam mê công nghệ">
                     </div>
                 </div>
             </div>
@@ -790,42 +734,44 @@
 
         <section id="skills">
             <div class="container">
-                <h2 class="section-title animate-on-scroll fade-in">Kỹ Năng & Công Cụ</h2>
+                <h2 class="section-title animate-on-scroll">Kỹ Năng & Công Cụ</h2>
                 <div class="skills-grid">
-                    <div class="skill-category">
-                        <div class="card animate-on-scroll slide-up">
-                            <h3><i class="fas fa-brain" style="margin-right: 10px; color: var(--accent-secondary);"></i>Kỹ Năng Mềm</h3>
+                    <div class="skill-category animate-on-scroll">
+                        <div class="apple-card">
+                            <h3><i class="fas fa-brain"></i>Kỹ Năng Mềm</h3>
                             <ul>
                                 <li>Giao tiếp & Trình bày</li>
                                 <li>Làm việc nhóm & Độc lập</li>
                                 <li>Giải quyết vấn đề</li>
-                                <li>Tư duy phản biện</li>
+                                <li>Tư duy phản biện & Phân tích</li>
                                 <li>Quản lý thời gian</li>
                                 <li>Khả năng thích ứng & Học hỏi nhanh</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="skill-category">
-                        <div class="card animate-on-scroll slide-up" style="transition-delay: 0.15s;">
-                            <h3><i class="fas fa-tools" style="margin-right: 10px; color: var(--accent-secondary);"></i>Công Cụ & Tin Học</h3>
+                    <div class="skill-category animate-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="apple-card">
+                            <h3><i class="fas fa-tools"></i>Công Cụ & Tin Học</h3>
                             <ul>
-                                <li>Microsoft Office (Word, Excel, PowerPoint) - Thành thạo</li>
+                                <li>Microsoft Office (Word, Excel, PowerPoint)</li>
                                 <li>Google Workspace (Docs, Sheets, Slides)</li>
-                                <li>Photoshop, Canva & Premiere Pro cơ bản, Edit video Capcut, </li>
-                                <li>Tiếng Anh: Giao tiếp cơ bản, Đọc hiểu tài liệu chuyên ngành</li>
+                                <li>Thiết kế: Photoshop, Canva (Thành thạo)</li>
+                                <li>Video Editing: Premiere Pro (Cơ bản), Capcut</li>
+                                <li>Hệ điều hành: Windows, Linux (Cơ bản)</li>
+                                <li>Tiếng Anh: Đọc hiểu tài liệu chuyên ngành</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="skill-category">
-                        <div class="card animate-on-scroll slide-up" style="transition-delay: 0.3s;">
-                            <h3><i class="fas fa-laptop-code" style="margin-right: 10px; color: var(--accent-secondary);"></i>Kiến Thức Kỹ Thuật</h3>
+                    <div class="skill-category animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="apple-card">
+                            <h3><i class="fas fa-laptop-code"></i>Kiến Thức Kỹ Thuật</h3>
                             <ul>
-                                <li>HTML, CSS, C++, C#</li>
-                                <li>Thiết kế Mạng máy tính</li>
-                                <li>Sử dụng AI Ứng dụng công việc hiệu quả</li>
-                                <li>Sửa chữa, Lắp ráp và lắp đặt máy tính, Camera, Máy in</li>
-                                <li>Thương mại Điện tử</li>
-                                <li>Marketing</li>
+                                <li>Ngôn ngữ: HTML, CSS, JavaScript, C++, C#</li>
+                                <li>Framework/Library: ReactJS (Đang học)</li>
+                                <li>Version Control: Git & GitHub</li>
+                                <li>Mạng máy tính & Phần cứng cơ bản</li>
+                                <li>Sử dụng AI hỗ trợ công việc (ChatGPT, Gemini)</li>
+                                <li>Thương mại Điện tử & Marketing cơ bản</li>
                             </ul>
                         </div>
                     </div>
@@ -835,32 +781,22 @@
 
         <section id="experience">
             <div class="container">
-                <h2 class="section-title animate-on-scroll fade-in">Kinh Nghiệm & Hoạt Động</h2>
-                <div class="timeline">
-                    <div class="timeline-item left" style="--item-index: 0;">
-                        <div class="card">
-                            <h3>Nhân viên vận chuyển và phân phối thực thẩm</h3>
-                            <span class="date">ShopeeFood | 3/2025 – Hiện tại</span>
-                            <p>Mô tả ngắn về công việc và trách nhiệm chính:</p>
+                <h2 class="section-title animate-on-scroll">Kinh Nghiệm & Hoạt Động</h2>
+                <div class="experience-grid">
+                    <div class="experience-item animate-on-scroll">
+                        <div class="apple-card">
+                            <span class="date">03/2025 – Hiện tại</span>
+                            <h3>Nhân viên Vận chuyển & Phân phối Thực phẩm</h3>
+                            <p style="color: var(--text-tertiary); font-weight: 500; margin-bottom: 10px;">Đối tác ShopeeFood</p>
+                            <p>Công việc bán thời gian nhằm tăng cường kinh nghiệm thực tế và kỹ năng mềm.</p>
                             <ul>
-                                <li>Phục vụ khách hàng, giải đáp thắc mắc và xử lý các yêu cầu.</li>
-                                <li>Hỗ trợ sắp xếp hàng hóa, quản lý kho.</li>
-                                <li>Tham gia vào các chiến dịch quảng bá nhỏ của cửa hàng.</li>
-                                <li><strong>Bài học rút ra:</strong> Rèn luyện kỹ năng giao tiếp, sự kiên nhẫn và khả năng làm việc dưới áp lực.</li>
+                                <li>Giao nhận đơn hàng, đảm bảo chất lượng dịch vụ và sự hài lòng của khách hàng.</li>
+                                <li>Tương tác, giải quyết các yêu cầu và phản hồi từ khách hàng.</li>
+                                <li>Rèn luyện kỹ năng quản lý thời gian, làm việc độc lập và chịu áp lực.</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="timeline-item right" style="--item-index: 1;">
-                        <div class="card">
-                            <h3>Designer</h3>
-                            <span class="date">CLB CHILLCHILL | 4/2025</span>
-                            <p>Mô tả vai trò và đóng góp:</p>
-                            <ul>
-                                <li>Thành viên Ban Truyền Thông CLB ChillChill, hỗ trợ thiết kế ấn phẩm, viết nội dung.</li>
-                                <li>Tình nguyện viên sự kiện Khởi Nghiệp Sinh Viên, hỗ trợ công tác hậu cần, đón tiếp.</li>
-                                <li><strong>Bài học rút ra:</strong> Học được cách làm việc nhóm hiệu quả, lên kế hoạch và tổ chức sự kiện.</li>
-                            </ul>
-                        </div>
+                    <div class="experience-item animate-on-scroll" style="transition-delay: 0.1s;">
                     </div>
                 </div>
             </div>
@@ -868,113 +804,70 @@
 
         <section id="projects">
             <div class="container">
-                <h2 class="section-title animate-on-scroll fade-in">Dự Án Cá Nhân</h2>
-                <p style="text-align:center; max-width: 700px; margin: -40px auto 40px auto; color: var(--text-secondary);" class="animate-on-scroll fade-in">
-                    Đây là những dự án nhỏ tôi tự thực hiện để rèn luyện kỹ năng hoặc thể hiện sự sáng tạo.
-                    Kể cả những bài tập, thiết kế đơn giản bạn tự hào cũng có thể đưa vào!
+                <h2 class="section-title animate-on-scroll">Dự Án Nổi Bật</h2>
+                <p class="section-subtitle animate-on-scroll" style="transition-delay: 0.05s;">
+                    Một số dự án cá nhân và bài tập Mình đã thực hiện để rèn luyện kỹ năng và khám phá niềm đam mê công nghệ.
                 </p>
                 <div class="portfolio-grid">
-                    <div class="portfolio-item">
-                        <div class="card animate-on-scroll slide-up">
-                            <img src="./Assest/Project/Product3.jpeg" alt="Ảnh dự án 1">
+                    <div class="portfolio-item animate-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="apple-card">
+                            <img src="./Assest/Project/Product3.jpeg" alt="Website cá nhân Nam Trần">
                             <div class="portfolio-content">
-                                <h3>Website cá nhân đơn giản</h3>
-                                <p>Lập trình trang web này bằng React với hỗ trợ từ AI để thực hành kiến thức web cơ bản</p>
+                                <h3>BIO Website</h3>
+                                <p>Trang CV & Portfolio cá nhân, thiết kế và xây dựng bằng HTML, CSS, JavaScript. Tập trung vào trải nghiệm người dùng mượt mà và responsive.</p>
                                 <div class="portfolio-tags">
-                                    <span class="tag">HTML, CSS, JavaScript</span>
-                                    <span class="tag">TypeScript</span>
-                                    <span class="tag">React JS</span>
-                                    <span class="tag">Học tập</span>
+                                    <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
+                                    <span class="tag">Responsive</span>
                                 </div>
                                 <div class="portfolio-links">
                                     <a href="https://github.com/Namtran592005/BioPage" target="_blank"><i class="fab fa-github"></i> Source Code</a>
-                                    <a href="https://namtran592005.github.io/BioPage/" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
+                                    <a href="https://namtran592005.github.io/BioPage/" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="portfolio-item">
-                        <div class="card animate-on-scroll slide-up">
-                            <img src="./Assest/Project/Product1.jpg" alt="Ảnh dự án 2">
+                    <div class="portfolio-item animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="apple-card">
+                            <img src="./Assest/Project/Product1.jpg" alt="Chatbot AI VEGA">
                             <div class="portfolio-content">
-                                <h3>Website Chatbot AI</h3>
-                                <p>React với Support từ AI Google Gemini để thực hành kiến thức web và sử dụng API, Cookie, Text to Spend</p>
+                                <h3>VEGA AI Chatbot</h3>
+                                <p>Ứng dụng Chatbot AI được xây dựng bằng React, tích hợp API từ Google Gemini. Giao diện trực quan, hỗ trợ nhập liệu giọng nói và lưu trữ hội thoại.</p>
                                 <div class="portfolio-tags">
-                                    <span class="tag">HTML, CSS, JavaScript</span>
-                                    <span class="tag">TypeScript</span>
-                                    <span class="tag">React JS</span>
-                                    <span class="tag">Học tập</span>
+                                    <span class="tag">ReactJS</span><span class="tag">API</span><span class="tag">AI</span>
+                                    <span class="tag">Gemini</span>
                                 </div>
                                 <div class="portfolio-links">
                                     <a href="https://github.com/Namtran592005/VEGA-AI" target="_blank"><i class="fab fa-github"></i> Source Code</a>
-                                    <a href="https://namtran592005.github.io/VEGA-AI/" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
+                                    <a href="https://namtran592005.github.io/VEGA-AI/" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="portfolio-item">
-                        <div class="card animate-on-scroll slide-up">
-                            <img src="./Assest/Project/Product2.jpg" alt="Ảnh dự án 3">
+                    <div class="portfolio-item animate-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="apple-card">
+                            <img src="./Assest/Project/Product2.jpg" alt="Website Tiện ích">
                             <div class="portfolio-content">
-                                <h3>Website Tiện ích đơn giản, gọn nhẹ</h3>
-                                <p>Cung cấp các tiện ích internet cơ bản cho mọi người</p>
+                                <h3>Utility Tools Website</h3>
+                                <p>Một trang web tập hợp các công cụ tiện ích online cơ bản, phát triển bằng React. Mục tiêu cung cấp giải pháp nhanh chóng và tiện lợi cho người dùng.</p>
                                 <div class="portfolio-tags">
-                                    <span class="tag">HTML, CSS, JavaScript</span>
-                                    <span class="tag">TypeScript</span>
-                                    <span class="tag">React JS</span>
-                                    <span class="tag">Học tập</span>
+                                    <span class="tag">ReactJS</span><span class="tag">Web Tools</span><span class="tag">Utility</span>
                                 </div>
                                 <div class="portfolio-links">
                                     <a href="https://github.com/Namtran592005/Utility-Tools" target="_blank"><i class="fab fa-github"></i> Source Code</a>
-                                    <a href="https://namtran592005.github.io/Utility-Tools/" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
+                                    <a href="https://namtran592005.github.io/Utility-Tools/" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="portfolio-item">
-                        <div class="card animate-on-scroll slide-up" style="transition-delay: 0.15s;">
-                            <img src="./Assest/Project/Poster.png" alt="Ảnh dự án 4">
-                            <div class="portfolio-content">
-                                <h3>Thiết kế poster sự kiện CLB</h3>
-                                <p>Sử dụng Photoshop,Canva để thiết kế poster cho sự kiện của CLB, tập trung vào bố cục và màu sắc thu hút</p>
-                                <div class="portfolio-tags">
-                                    <span class="tag">Photoshop, Canva</span>
-                                    <span class="tag">Thiết kế</span>
-                                    <span class="tag">Hoạt động CLB</span>
-                                </div>
-                                <div class="portfolio-links">
-                                    <a href="./Assest/Project/Poster.png" target="_blank"><i class="fas fa-eye"></i> Xem Thiết Kế</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="portfolio-item">
-                         <div class="card animate-on-scroll slide-up" style="transition-delay: 0.3s;">
-                            <img src="./Assest/Project/Slide.png" alt="Ảnh dự án 5">
-                            <div class="portfolio-content">
-                                <h3>Bài thuyết trình ấn tượng</h3>
-                                <p>Chuẩn bị bài thuyết trình cho môn Pháp Luật với hiệu ứng và nội dung sáng tạo</p>
-                                <div class="portfolio-tags">
-                                    <span class="tag">PowerPoint</span>
-                                    <span class="tag">Thuyết trình</span>
-                                    <span class="tag">Học thuật</span>
-                                </div>
-                                <div class="portfolio-links">
-                                    <a href="./Assest/Video/Slide.mp4" target="_blank"><i class="fas fa-eye"></i> Xem Thiết Kế</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="portfolio-item">
-                        <div class="card animate-on-scroll slide-up" style="transition-delay: 0.3s;">
-                           <img src="./Assest/Project/Product4.jpg" alt="Ảnh dự án 6">
+                    <div class="portfolio-item animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="apple-card">
+                           <img src="./Assest/Project/Product4.jpg" alt="Trang Web Giới Thiệu Trường TVC">
                            <div class="portfolio-content">
-                               <h3>Trang Web Giới Thiệu Trường</h3>
-                               <p>Trang web đơn giản với hiệu ứng giới thiệu về trường cao đẳng nghề trà vinh - TVC</p>
+                               <h3>TVC Landing Page Concept</h3>
+                               <p>Ý tưởng thiết kế Landing Page giới thiệu Trường Cao đẳng Nghề Trà Vinh (TVC) với giao diện hiện đại và các hiệu ứng tương tác trực quan.</p>
                                <div class="portfolio-tags">
-                                   <span class="tag">LoadingPage</span>
-                                   <span class="tag">Website</span>
-                                   <span class="tag">Hiện đại</span>
+                                   <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
+                                   <span class="tag">Concept</span>
                                </div>
                                <div class="portfolio-links">
                                     <a href="https://github.com/Namtran592005/TVC/" target="_blank"><i class="fab fa-github"></i> Source Code</a>
@@ -983,39 +876,63 @@
                            </div>
                        </div>
                    </div>
+                    <div class="portfolio-item animate-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="apple-card">
+                            <img src="./Assest/Project/Poster.png" alt="Thiết kế poster sự kiện CLB">
+                            <div class="portfolio-content">
+                                <h3>Thiết kế Poster</h3>
+                                <p>Sử dụng Photoshop và Canva để tạo các poster, banner, tập trung vào tính thẩm mỹ, thu hút và truyền tải thông điệp hiệu quả.</p>
+                                <div class="portfolio-tags">
+                                    <span class="tag">Photoshop</span><span class="tag">Canva</span><span class="tag">Design</span>
+                                </div>
+                                <div class="portfolio-links">
+                                    <a href="./Assest/Project/Poster.png" target="_blank"><i class="fas fa-eye"></i> Xem Thiết Kế</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-item animate-on-scroll" style="transition-delay: 0.2s;">
+                         <div class="apple-card">
+                            <img src="./Assest/Project/Slide.png" alt="Bài thuyết trình ấn tượng">
+                            <div class="portfolio-content">
+                                <h3>Bài Thuyết Trình Động</h3>
+                                <p>Thiết kế slide thuyết trình cho môn Pháp Luật, sử dụng hiệu ứng và bố cục sáng tạo để trình bày nội dung một cách trực quan và hấp dẫn.</p>
+                                <div class="portfolio-tags">
+                                    <span class="tag">PowerPoint</span><span class="tag">Presentation</span>
+                                </div>
+                                <div class="portfolio-links">
+                                    <a href="./Assest/Video/Slide.mp4" target="_blank"><i class="fas fa-play-circle"></i> Xem Demo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
         
         <section id="education">
             <div class="container">
-                <h2 class="section-title animate-on-scroll fade-in">Học Vấn</h2>
-                 <div class="timeline">
-                    <div class="timeline-item left" style="--item-index: 0;">
-                        <div class="card">
-                            <h3>Trường Cao đẳng Nghề Trà Vinh</h3>
-                            <span class="date">Công nghệ Thông Tin | 2024 – Dự kiến 2027</span>
-                            <p>Điểm GPA hiện tại: 3.9</p>
-                            <ul>
-                                <li>Thành tích nổi bật:...</li>
-                            </ul>
+                <h2 class="section-title animate-on-scroll">Học Vấn</h2>
+                 <div class="experience-grid">
+                    <div class="experience-item animate-on-scroll">
+                        <div class="apple-card">
+                            <span class="date">2024 – DỰ KIẾN 2027</span>
+                            <h3>Trường Cao đẳng Nghề Trà Vinh (TVC)</h3>
+                            <p style="color: var(--text-tertiary); font-weight: 500; margin-bottom: 10px;">Chuyên ngành: Công nghệ Thông Tin</p>
                         </div>
                     </div>
-                    <div class="timeline-item right" style="--item-index: 0;">
-                        <div class="card">
+                    <div class="experience-item animate-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="apple-card">
+                            <span class="date">2020 – 2022</span>
                             <h3>Trường Trung Cấp Kinh Tế Kỹ Thuật Nguyễn Hữu Cảnh</h3>
-                            <span class="date">Tin Học Ứng dụng | 2022</span>
-                            <p>Tốt Nghiệp Loại Giỏi</p>
-                            <ul>
-                                <li>Thành tích nổi bật:...</li>
-                            </ul>
+                             <p style="color: var(--text-tertiary); font-weight: 500; margin-bottom: 10px;">Chuyên ngành: Tin Học Ứng dụng</p>
                         </div>
                     </div>
-                    <div class="timeline-item left" style="--item-index: 1;">
-                         <div class="card">
-                            <h3>Trường Trung Tâm GDTX-HNDN Thành Phố Trà Vinh</h3>
-                            <span class="date">Tốt nghiệp năm 2023</span>
-                            <p>Thành tích: Học sinh giỏi năm lớp 11 và 12</p>
+                    <div class="experience-item animate-on-scroll" style="transition-delay: 0.2s;">
+                         <div class="apple-card">
+                            <span class="date">TỐT NGHIỆP 2023</span>
+                            <h3>Trung Tâm GDTX-HNDN Thành Phố Trà Vinh</h3>
+                             <p style="color: var(--text-tertiary); font-weight: 500; margin-bottom: 10px;">Chương trình Giáo dục Thường xuyên Cấp THPT</p>
                         </div>
                     </div>
                 </div>
@@ -1024,38 +941,42 @@
 
         <section id="contact">
             <div class="container">
-                <h2 class="section-title animate-on-scroll fade-in">Kết Nối Với Tôi</h2>
+                <h2 class="section-title animate-on-scroll">Kết Nối Với Mình</h2>
+                <p class="section-subtitle animate-on-scroll" style="transition-delay: 0.05s;">
+                    Mình luôn sẵn sàng lắng nghe các cơ hội hợp tác, dự án thú vị hoặc đơn giản là một lời chào. Đừng ngần ngại liên hệ!
+                </p>
                 <div class="contact-container">
-                    <div class="contact-form-wrapper animate-on-scroll slide-up">
-                        <div class="card">
+                    <div class="contact-form-wrapper animate-on-scroll" style="transition-delay: 0.1s;">
+                        <div class="apple-card">
                             <h3>Gửi Lời Nhắn</h3>
-                            <form action="https://formspree.io/f/xzzryjzq" method="POST">
+                            <form id="contact-form" action="https://formspree.io/f/xzzryjzq" method="POST">
                                 <div class="form-group">
-                                    <label for="name">Họ và Tên:</label>
+                                    <label for="name">Họ và Tên</label>
                                     <input type="text" id="name" name="name" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="email">Email:</label>
+                                    <label for="email">Email</label>
                                     <input type="email" id="email" name="email" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="message">Lời nhắn:</label>
+                                    <label for="message">Lời nhắn</label>
                                     <textarea id="message" name="message" required></textarea>
                                 </div>
-                                <button type="submit">Gửi Đi <i class="fas fa-paper-plane" style="margin-left: 8px;"></i></button>
+                                <button type="submit" class="contact-button">Gửi Đi <i class="fas fa-arrow-right" style="margin-left: 8px; font-size: 0.8em"></i></button>
+                                <p id="form-status" style="margin-top: 15px; font-size: 0.9rem;"></p>
                             </form>
                         </div>
                     </div>
-                    <div class="contact-info-wrapper animate-on-scroll slide-up" style="transition-delay: 0.15s;">
-                        <div class="card">
+                    <div class="contact-info-wrapper animate-on-scroll" style="transition-delay: 0.2s;">
+                        <div class="apple-card">
                             <h3>Thông Tin Liên Hệ</h3>
                             <div class="contact-info-item">
                                 <i class="fas fa-envelope"></i>
-                                <span><a href="mailto:[Email của bạn]">Namtran5905@gmail.com</a></span>
+                                <span><a href="mailto:Namtran5905@gmail.com">Namtran5905@gmail.com</a></span>
                             </div>
                             <div class="contact-info-item">
                                 <i class="fas fa-phone-alt"></i>
-                                <span><a href="tel:[Số điện thoại của bạn]">....</a></span>
+                                <span><a href="tel:+84YOURPHONENUMBER">096****439</a></span> 
                             </div>
                             <div class="contact-info-item">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -1064,12 +985,12 @@
                             <h3 style="margin-top: 30px;">Mạng Xã Hội</h3>
                             <div class="contact-info-item">
                                 <i class="fab fa-github"></i>
-                                <a href="https://github.com/Namtran592005" target="_blank">GitHub</a>
+                                <a href="https://github.com/Namtran592005" target="_blank">Github</a>
                             </div>
                              <div class="contact-info-item">
                                 <i class="fab fa-facebook"></i>
                                 <a href="https://fb.com/namtran5905" target="_blank">Facebook</a>
-                            </div>
+                            </div
                         </div>
                     </div>
                 </div>
@@ -1079,8 +1000,7 @@
 
     <footer>
         <div class="container">
-            <p>© <span id="currentYear"></span> <a href="#hero">Nam Trần</a>. Thiết kế với <i class="fas fa-heart" style="color: var(--accent-secondary);"></i> và rất nhiều <i class="fas fa-mug-hot" style="color: var(--accent-primary);"></i>.</p>
-            <p>Một sản phẩm của sự Rãnh rỗi và Tò mò.</p>
+            <p>© <span id="currentYear"></span> Devoloper by Nam Trần</p>
         </div>
     </footer>
 
@@ -1089,129 +1009,184 @@
     <script>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Typing animation for Hero section
+        // Typing animation
         const typingTextElement = document.querySelector('.hero .typing-text');
-        const roles = ["Bình Tĩnh", "Tự Tin", "Chiến Thắng", "sẵn Sàng Thử Thách"];
-        let roleIndex = 0;
-        let charIndex = 0;
-        let currentText = '';
-        let isDeleting = false;
+        const rolesToType = ["Bình Tĩnh.", "Tự Tin.", "Chiến Thắng."];
+        let currentRoleIndex = 0;
+        let currentCharIndex = 0;
+        let currentTextToDisplay = '';
+        let isDeletingText = false;
 
-        function type() {
-            const fullText = roles[roleIndex];
-            if (isDeleting) {
-                currentText = fullText.substring(0, charIndex - 1);
-                charIndex--;
+        function typeRole() {
+            if (!typingTextElement) return;
+            const fullText = rolesToType[currentRoleIndex];
+            
+            if (isDeletingText) {
+                currentTextToDisplay = fullText.substring(0, currentCharIndex - 1);
+                currentCharIndex--;
             } else {
-                currentText = fullText.substring(0, charIndex + 1);
-                charIndex++;
+                currentTextToDisplay = fullText.substring(0, currentCharIndex + 1);
+                currentCharIndex++;
             }
+            typingTextElement.textContent = currentTextToDisplay;
 
-            if (typingTextElement) {
-                typingTextElement.textContent = currentText;
-            }
+            let typeSpeed = 100;
+            if (isDeletingText) typeSpeed /= 2;
 
-            let typeSpeed = 150;
-            if (isDeleting) {
-                typeSpeed /= 2;
-            }
-
-            if (!isDeleting && currentText === fullText) {
+            if (!isDeletingText && currentTextToDisplay === fullText) {
                 typeSpeed = 2000; 
-                isDeleting = true;
-            } else if (isDeleting && currentText === '') {
-                isDeleting = false;
-                roleIndex = (roleIndex + 1) % roles.length;
+                isDeletingText = true;
+            } else if (isDeletingText && currentTextToDisplay === '') {
+                isDeletingText = false;
+                currentRoleIndex = (currentRoleIndex + 1) % rolesToType.length;
                 typeSpeed = 500; 
             }
-            setTimeout(type, typeSpeed);
+            setTimeout(typeRole, typeSpeed);
         }
         
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typingTextElement) {
-                setTimeout(type, 1000);
-            }
-        });
-
-        // Scroll-triggered animations using Intersection Observer
-        const animatedElements = document.querySelectorAll('.animate-on-scroll, .card, .timeline-item');
+        // Intersection Observer for animations
+        const animatedElements = document.querySelectorAll('.animate-on-scroll, .apple-card');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
+                    // Optional: unobserve after first animation
+                    // observer.unobserve(entry.target);
                 }
             });
-        }, {
-            threshold: 0.1 
-        });
+        }, { threshold: 0.1 });
+        animatedElements.forEach(el => observer.observe(el));
 
-        animatedElements.forEach(el => {
-            observer.observe(el);
-        });
+        // Active navigation link highlighting & Smooth Scroll
+        const mainNavLinks = document.querySelectorAll('header nav#main-nav ul li a');
+        const pageSections = document.querySelectorAll('section[id]');
+        const siteHeader = document.querySelector('header');
+        const headerHeightOffset = siteHeader ? siteHeader.offsetHeight : 60;
 
-        // Active navigation link highlighting on scroll
-        const navLinks = document.querySelectorAll('header nav#main-nav ul li a');
-        const sections = document.querySelectorAll('section[id]'); // Ensure sections have IDs
-        
-        window.addEventListener('scroll', () => {
+        function updateActiveNavLink() {
             let currentSectionId = '';
-            sections.forEach(section => {
+            pageSections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (pageYOffset >= (sectionTop - header.offsetHeight - sectionHeight / 3) ) { // Adjusted for header height
+                if (pageYOffset >= (sectionTop - headerHeightOffset - section.clientHeight / 3)) {
                     currentSectionId = section.getAttribute('id');
                 }
             });
 
-            navLinks.forEach(link => {
+            mainNavLinks.forEach(link => {
                 link.classList.remove('active');
-                // Check if href exists and is not just "#"
-                if (link.getAttribute('href') && link.getAttribute('href').length > 1) {
-                    if (link.getAttribute('href').substring(1) === currentSectionId) {
-                        link.classList.add('active');
+                const href = link.getAttribute('href');
+                if (href && href.length > 1 && href.substring(1) === currentSectionId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        mainNavLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#') && href.length > 1) {
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const targetPosition = targetElement.offsetTop - headerHeightOffset +1;
+                        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                        if (mobileNavMenu.classList.contains('nav-open')) {
+                            closeMobileNavigation();
+                        }
                     }
                 }
             });
         });
 
-        // Scroll to top button visibility
-        const scrollToTopBtn = document.querySelector('.scroll-to-top');
-        const siteHeader = document.querySelector('header'); // For getting header height
+        window.addEventListener('scroll', updateActiveNavLink);
+        window.addEventListener('load', updateActiveNavLink);
 
+        // Scroll to top button
+        const scrollToTopButton = document.querySelector('.scroll-to-top');
         window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollToTopBtn.classList.add('visible');
-            } else {
-                scrollToTopBtn.classList.remove('visible');
+            if (scrollToTopButton) {
+                scrollToTopButton.classList.toggle('visible', window.pageYOffset > 300);
             }
         });
-
-        // Mobile Navigation Toggle
-        const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-        const mainNav = document.querySelector('#main-nav');
-        const bodyEl = document.body;
-
-        if (mobileNavToggle && mainNav) {
-            mobileNavToggle.addEventListener('click', () => {
-                mainNav.classList.toggle('nav-open');
-                mobileNavToggle.classList.toggle('nav-open');
-                const isNavOpen = mainNav.classList.contains('nav-open');
-                mobileNavToggle.setAttribute('aria-expanded', isNavOpen);
-                bodyEl.classList.toggle('no-scroll', isNavOpen); // Toggle body scroll lock
-            });
-
-            // Close mobile nav when a link is clicked
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (mainNav.classList.contains('nav-open')) {
-                        mainNav.classList.remove('nav-open');
-                        mobileNavToggle.classList.remove('nav-open');
-                        mobileNavToggle.setAttribute('aria-expanded', 'false');
-                        bodyEl.classList.remove('no-scroll');
-                    }
-                });
+        if (scrollToTopButton) {
+            scrollToTopButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector(scrollToTopButton.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
             });
         }
+        
+
+        // Mobile Navigation
+        const mobileNavToggleButton = document.querySelector('.mobile-nav-toggle');
+        const mobileNavMenu = document.querySelector('#main-nav');
+        const pageBody = document.body;
+
+        function closeMobileNavigation() {
+            mobileNavMenu.classList.remove('nav-open');
+            mobileNavToggleButton.classList.remove('nav-open');
+            mobileNavToggleButton.setAttribute('aria-expanded', 'false');
+            pageBody.classList.remove('no-scroll');
+        }
+
+        if (mobileNavToggleButton && mobileNavMenu) {
+            mobileNavToggleButton.addEventListener('click', () => {
+                const isNavOpen = mobileNavMenu.classList.toggle('nav-open');
+                mobileNavToggleButton.classList.toggle('nav-open');
+                mobileNavToggleButton.setAttribute('aria-expanded', isNavOpen);
+                pageBody.classList.toggle('no-scroll', isNavOpen);
+            });
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mobileNavMenu.classList.contains('nav-open')) {
+                    closeMobileNavigation();
+                }
+            });
+        }
+        
+        // Formspree Submission
+        const contactForm = document.getElementById('contact-form');
+        const formStatusMessage = document.getElementById('form-status');
+
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            if(formStatusMessage) formStatusMessage.innerHTML = 'Đang gửi...';
+            
+            try {
+                const response = await fetch(event.target.action, {
+                    method: contactForm.method,
+                    body: formData,
+                    headers: {'Accept': 'application/json'}
+                });
+                if (response.ok) {
+                    if(formStatusMessage) formStatusMessage.innerHTML = "Cảm ơn! Lời nhắn của bạn đã được gửi.";
+                    if(formStatusMessage) formStatusMessage.style.color = 'green';
+                    contactForm.reset();
+                } else {
+                    response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                             if(formStatusMessage) formStatusMessage.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+                        } else {
+                             if(formStatusMessage) formStatusMessage.innerHTML = "Oops! Có lỗi xảy ra khi gửi form.";
+                        }
+                         if(formStatusMessage) formStatusMessage.style.color = 'red';
+                    })
+                }
+            } catch (error) {
+                 if(formStatusMessage) formStatusMessage.innerHTML = "Oops! Có lỗi xảy ra khi gửi form.";
+                 if(formStatusMessage) formStatusMessage.style.color = 'red';
+            }
+            if(formStatusMessage) setTimeout(() => { formStatusMessage.innerHTML = ''; }, 6000);
+        }
+        if (contactForm) {
+            contactForm.addEventListener("submit", handleFormSubmit);
+        }
+
+        // Initialize typing animation
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typingTextElement) setTimeout(typeRole, 1200);
+            updateActiveNavLink(); // Initial active link check
+        });
 
     </script>
 </body>
