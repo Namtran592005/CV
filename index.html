@@ -50,7 +50,7 @@
             --shadow-color: rgba(0, 0, 0, 0.05);
             --shadow-color-hover: rgba(0, 0, 0, 0.1);
 
-            --font-primary: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            --font-primary: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
             
             --header-height: 68px;
             --border-radius-s: 8px;
@@ -406,22 +406,25 @@
             background: var(--bg-card); border: 1px solid var(--border-color-subtle);
             border-radius: var(--border-radius-l); padding: 30px;
             box-shadow: 0 4px 12px var(--shadow-color);
-            transition: transform var(--transition-duration) var(--transition-cubic), 
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
+                        box-shadow 0.35s cubic-bezier(0.4,0,0.2,1),
+                        border-color 0.25s cubic-bezier(0.4,0,0.2,1),
                         opacity 0.6s var(--transition-cubic);
-            opacity: 0; transform: translateY(30px);
+            will-change: transform, box-shadow, border-color;
+            border: 1.5px solid var(--border-color-subtle);
         }
-        .apple-card.is-visible { opacity: 1; transform: translateY(0); }
-        .apple-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px var(--shadow-color-hover); }
-        .apple-card h3 { 
-            color: var(--text-primary); margin-bottom: 12px; font-size: 1.35rem; font-weight: 600;
-            transition: color var(--transition-duration) var(--transition-cubic);
+        .apple-card:hover {
+            transform: translateY(-10px) scale(1.035) rotateZ(-0.3deg);
+            box-shadow: 0 12px 32px 0 rgba(var(--accent-primary-rgb),0.13), 0 2px 8px var(--shadow-color-hover);
+            border-color: var(--accent-primary);
+            background: linear-gradient(120deg,rgba(var(--accent-primary-rgb),0.07) 0%,rgba(255,255,255,0.95) 100%);
+            filter: brightness(1.03) saturate(1.08);
         }
-        .apple-card ul { list-style: none; padding-left: 0; }
-        .apple-card ul li { margin-bottom: 8px; position: relative; padding-left: 22px; color: var(--text-secondary); font-size: 1rem; line-height: 1.7; transition: color var(--transition-duration) var(--transition-cubic); }
-        .apple-card ul li::before { 
-            content: "•"; color: var(--accent-primary); position: absolute;
-            left: 0; top: -1px; font-size: 1.4em; 
-            transition: color var(--transition-duration) var(--transition-cubic);
+        body.dark-mode .apple-card:hover {
+            background: linear-gradient(120deg,rgba(var(--dark-accent-primary-rgb),0.13) 0%,rgba(22,22,23,0.98) 100%);
+            box-shadow: 0 12px 32px 0 rgba(var(--dark-accent-primary-rgb),0.18), 0 2px 8px var(--dark-shadow-color-hover);
+            border-color: var(--dark-accent-primary);
+            filter: brightness(1.07) saturate(1.13);
         }
 
         /* About Me Section */
@@ -623,6 +626,7 @@
     </style>
 </head>
 <body>
+    <canvas id="neuron-bg"></canvas>
     <header>
         <div class="container">
             <a href="#hero" class="logo">Portfolio & CV</a>
@@ -967,7 +971,7 @@
     </div>
     <a href="#hero" class="scroll-to-top"><i class="fas fa-arrow-up"></i></a>
 
-    <script>
+    <script defer>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
         // Typing animation
@@ -1184,12 +1188,218 @@
             contactForm.addEventListener("submit", handleFormSubmit);
         }
 
-        // Initialize typing animation & initial active link check
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typingTextElement) setTimeout(typeRole, 1200);
-            updateActiveNavLink(); 
+        // === Neuron Dynamic Background Effect (web-like, clear lines, best perf) ===
+    (function() {
+        const canvas = document.getElementById('neuron-bg');
+        if (!canvas) return;
+        let ctx = canvas.getContext('2d');
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let dpr = window.devicePixelRatio || 1;
+        let mouse = { x: width/2, y: height/2 };
+        let mouseActive = false;
+        let neuronCount = Math.floor((width * height) / 4200); // tối ưu cho hiệu suất
+        let neurons = [];
+        let radiusBoost = 180;
+        let lastTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+        let colorLight = getComputedStyle(document.documentElement).getPropertyValue('--neutron-dot-color-light').trim() || '#007AFF';
+        let colorDark = '#fff'; // Đường nối màu trắng ở dark mode
+        let opacityLight = 0.11;
+        let opacityDark = 0.13;
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            dpr = window.devicePixelRatio || 1;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+            ctx.setTransform(1,0,0,1,0,0);
+            ctx.scale(dpr, dpr);
+        }
+        resizeCanvas();
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            neuronCount = Math.floor((width * height) / 4200);
+            initNeurons();
         });
 
+        function randomNeuron() {
+            return {
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random()-0.5)*0.13,
+                vy: (Math.random()-0.5)*0.13,
+                radius: 1.1 + Math.random()*1.2,
+                alpha: 0.8 + Math.random()*0.2,
+                phase: Math.random()*Math.PI*2
+            };
+        }
+        function initNeurons() {
+            neurons = [];
+            for (let i=0; i<neuronCount; i++) {
+                neurons.push(randomNeuron());
+            }
+        }
+        initNeurons();
+
+        document.addEventListener('mousemove', e => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            mouseActive = true;
+        });
+        document.addEventListener('mouseleave', () => { mouseActive = false; });
+        document.addEventListener('touchmove', e => {
+            if (e.touches && e.touches[0]) {
+                mouse.x = e.touches[0].clientX;
+                mouse.y = e.touches[0].clientY;
+                mouseActive = true;
+            }
+        }, {passive:true});
+        document.addEventListener('touchend', () => { mouseActive = false; });
+
+        function getTheme() {
+            return document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+        }
+        function getNeuronColor() {
+            return getTheme() === 'dark' ? colorDark : colorLight;
+        }
+        function getNeuronOpacity() {
+            return getTheme() === 'dark' ? opacityDark : opacityLight;
+        }
+
+        function animate() {
+            ctx.clearRect(0,0,width,height);
+            ctx.save();
+            ctx.globalAlpha = getNeuronOpacity();
+            let color = getNeuronColor();
+            // Move neurons
+            for (let i=0; i<neurons.length; i++) {
+                let n = neurons[i];
+                n.x += n.vx + Math.cos(n.phase)*0.07;
+                n.y += n.vy + Math.sin(n.phase)*0.07;
+                n.phase += 0.01 + Math.random()*0.01;
+                // Wrap around screen
+                if (n.x < 0) n.x += width;
+                if (n.x > width) n.x -= width;
+                if (n.y < 0) n.y += height;
+                if (n.y > height) n.y -= height;
+            }
+            // Draw clear web-like lines
+            ctx.save();
+            ctx.globalAlpha = getNeuronOpacity() * 0.7;
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 0.7;
+            for (let i=0; i<neurons.length; i++) {
+                for (let j=i+1; j<neurons.length; j++) {
+                    let n1 = neurons[i], n2 = neurons[j];
+                    let dx = n1.x-n2.x, dy = n1.y-n2.y;
+                    let d = Math.sqrt(dx*dx+dy*dy);
+                    if (d < 90) {
+                        ctx.beginPath();
+                        ctx.moveTo(n1.x, n1.y);
+                        ctx.lineTo(n2.x, n2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            ctx.restore();
+            // Draw neurons
+            for (let i=0; i<neurons.length; i++) {
+                let n = neurons[i];
+                let boost = 1;
+                if (mouseActive) {
+                    let dist = Math.sqrt((n.x-mouse.x)**2 + (n.y-mouse.y)**2);
+                    if (dist < radiusBoost) boost = 2.2 - dist/radiusBoost;
+                }
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, n.radius * boost, 0, Math.PI*2);
+                ctx.fillStyle = color;
+                ctx.globalAlpha = getNeuronOpacity() * n.alpha * boost;
+                ctx.shadowColor = color;
+                ctx.shadowBlur = 8 * boost;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+            ctx.restore();
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Re-init neurons on theme change
+        const themeObserver = new MutationObserver(() => {
+            if (getTheme() !== lastTheme) {
+                lastTheme = getTheme();
+                colorLight = getComputedStyle(document.documentElement).getPropertyValue('--neutron-dot-color-light').trim() || '#007AFF';
+                // colorDark luôn là trắng
+                initNeurons();
+            }
+        });
+        themeObserver.observe(document.body, {attributes:true, attributeFilter:['class']});
+    })();
+    // === End Neuron Effect ===
+
+    // === Parallax Scrolling Effect (fade+slide, smooth, perf) ===
+    (function() {
+        const parallaxSections = document.querySelectorAll('main section');
+        let lastScrollY = window.scrollY;
+        let current = 0;
+        function parallaxScroll() {
+            lastScrollY = window.scrollY;
+            current += (lastScrollY - current) * 0.13;
+            parallaxSections.forEach((section, idx) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.bottom > 0 && rect.top < window.innerHeight) {
+                    // Parallax translateY for background
+                    section.style.backgroundPosition = `center ${-current * (0.09 + idx*0.012)}px`;
+                    // Fade+slide effect
+                    let slide = (current - lastScrollY) * (0.04 + idx*0.01);
+                    section.style.transform = `translate3d(0,${slide}px,0)`;
+                    section.style.opacity = 1 - Math.min(0.12, Math.abs(slide*0.012));
+                }
+            });
+            requestAnimationFrame(parallaxScroll);
+        }
+        parallaxScroll();
+    })();
+    // === End Parallax ===
     </script>
+    <style>
+    /* Neuron canvas background */
+    #neuron-bg {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        z-index: -1;
+        pointer-events: none;
+        display: block;
+        background: transparent;
+        /* Optimize for performance */
+        will-change: opacity, transform;
+    }
+    /* Improved apple-card hover effect */
+    .apple-card {
+        transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
+                    box-shadow 0.35s cubic-bezier(0.4,0,0.2,1),
+                    border-color 0.25s cubic-bezier(0.4,0,0.2,1),
+                    opacity 0.6s var(--transition-cubic);
+        will-change: transform, box-shadow, border-color;
+        border: 1.5px solid var(--border-color-subtle);
+    }
+    .apple-card:hover {
+        transform: translateY(-10px) scale(1.035) rotateZ(-0.3deg);
+        box-shadow: 0 12px 32px 0 rgba(var(--accent-primary-rgb),0.13), 0 2px 8px var(--shadow-color-hover);
+        border-color: var(--accent-primary);
+        background: linear-gradient(120deg,rgba(var(--accent-primary-rgb),0.07) 0%,rgba(255,255,255,0.95) 100%);
+        filter: brightness(1.03) saturate(1.08);
+    }
+    body.dark-mode .apple-card:hover {
+        background: linear-gradient(120deg,rgba(var(--dark-accent-primary-rgb),0.13) 0%,rgba(22,22,23,0.98) 100%);
+        box-shadow: 0 12px 32px 0 rgba(var(--dark-accent-primary-rgb),0.18), 0 2px 8px var(--dark-shadow-color-hover);
+        border-color: var(--dark-accent-primary);
+        filter: brightness(1.07) saturate(1.13);
+    }
+    </style>
 </body>
 </html>
