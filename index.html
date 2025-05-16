@@ -50,7 +50,7 @@
             --shadow-color: rgba(0, 0, 0, 0.05);
             --shadow-color-hover: rgba(0, 0, 0, 0.1);
 
-            --font-primary: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+            --font-primary: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             
             --header-height: 68px;
             --border-radius-s: 8px;
@@ -406,25 +406,22 @@
             background: var(--bg-card); border: 1px solid var(--border-color-subtle);
             border-radius: var(--border-radius-l); padding: 30px;
             box-shadow: 0 4px 12px var(--shadow-color);
-            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
-                        box-shadow 0.35s cubic-bezier(0.4,0,0.2,1),
-                        border-color 0.25s cubic-bezier(0.4,0,0.2,1),
+            transition: transform var(--transition-duration) var(--transition-cubic), 
                         opacity 0.6s var(--transition-cubic);
-            will-change: transform, box-shadow, border-color;
-            border: 1.5px solid var(--border-color-subtle);
+            opacity: 0; transform: translateY(30px);
         }
-        .apple-card:hover {
-            transform: translateY(-10px) scale(1.035) rotateZ(-0.3deg);
-            box-shadow: 0 12px 32px 0 rgba(var(--accent-primary-rgb),0.13), 0 2px 8px var(--shadow-color-hover);
-            border-color: var(--accent-primary);
-            background: linear-gradient(120deg,rgba(var(--accent-primary-rgb),0.07) 0%,rgba(255,255,255,0.95) 100%);
-            filter: brightness(1.03) saturate(1.08);
+        .apple-card.is-visible { opacity: 1; transform: translateY(0); }
+        .apple-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px var(--shadow-color-hover); }
+        .apple-card h3 { 
+            color: var(--text-primary); margin-bottom: 12px; font-size: 1.35rem; font-weight: 600;
+            transition: color var(--transition-duration) var(--transition-cubic);
         }
-        body.dark-mode .apple-card:hover {
-            background: linear-gradient(120deg,rgba(var(--dark-accent-primary-rgb),0.13) 0%,rgba(22,22,23,0.98) 100%);
-            box-shadow: 0 12px 32px 0 rgba(var(--dark-accent-primary-rgb),0.18), 0 2px 8px var(--dark-shadow-color-hover);
-            border-color: var(--dark-accent-primary);
-            filter: brightness(1.07) saturate(1.13);
+        .apple-card ul { list-style: none; padding-left: 0; }
+        .apple-card ul li { margin-bottom: 8px; position: relative; padding-left: 22px; color: var(--text-secondary); font-size: 1rem; line-height: 1.7; transition: color var(--transition-duration) var(--transition-cubic); }
+        .apple-card ul li::before { 
+            content: "•"; color: var(--accent-primary); position: absolute;
+            left: 0; top: -1px; font-size: 1.4em; 
+            transition: color var(--transition-duration) var(--transition-cubic);
         }
 
         /* About Me Section */
@@ -611,58 +608,6 @@
             }
         }
 
-        @media (max-width: 600px) {
-            html { font-size: 13.5px; }
-            body { padding: 0; }
-            .container { width: 98%; max-width: 100vw; padding: 0 6px; }
-            header { height: 52px; }
-            header .logo { font-size: 1.05rem; }
-            .mobile-nav-toggle, #theme-toggle { font-size: 1.15rem; padding: 7px; }
-            nav#mobile-nav-menu-actual ul li a { font-size: 1.05rem; padding: 12px 10px; }
-            .hero { padding-top: 62px; padding-bottom: 30px; min-height: 60vh; }
-            .hero img.profile-pic { width: 90px; height: 90px; margin-bottom: 14px; }
-            .hero h1 { font-size: 1.45rem; margin-bottom: 7px; }
-            .hero .subtitle { font-size: 1.01rem; margin-bottom: 10px; }
-            .hero .intro-paragraph { font-size: 0.98rem; margin-bottom: 18px; }
-            .hero .cta-button { padding: 8px 16px; font-size: 0.92rem; margin-top: 8px; }
-            .social-links-hero { margin-top: 18px; }
-            .social-links-hero a { font-size: 1.18rem; margin: 0 7px; }
-            .typing-wrapper, .typing-cursor, .typing-text { font-size: 0.98rem; min-height: 24px; }
-            section { padding: 32px 0; }
-            .section-title { font-size: 1.25rem; margin-bottom: 18px; }
-            .section-subtitle { font-size: 0.95rem; margin: -10px auto 16px auto; }
-            .apple-card { padding: 14px; border-radius: 10px; }
-            .skills-grid, .portfolio-grid, .experience-grid, .contact-container { grid-template-columns: 1fr !important; gap: 14px !important; }
-            .portfolio-item img { height: 120px; }
-            .portfolio-content { padding: 10px; }
-            .portfolio-content h3 { font-size: 1.08rem; }
-            .portfolio-content p { font-size: 0.92rem; }
-            .portfolio-tags .tag { font-size: 0.7rem; padding: 4px 8px; }
-            .portfolio-links a { font-size: 0.92rem; margin-right: 8px; }
-            #about .about-content { gap: 12px; }
-            #about .about-image-container { max-width: 120px; margin: 0 auto 10px auto; }
-            #about .about-text p { font-size: 0.98rem; }
-            #contact .contact-container { gap: 10px; }
-            .form-group input, .form-group textarea { font-size: 0.98rem; padding: 8px 10px; }
-            button[type="submit"].contact-button { padding: 8px 16px; font-size: 0.95rem; }
-            footer { padding: 18px 0; font-size: 0.85rem; }
-            .scroll-to-top { width: 36px; height: 36px; font-size: 0.95rem; bottom: 12px; right: 12px; }
-        }
-        /* Extra small: max-width 480px */
-        @media (max-width: 480px) {
-            html { font-size: 12.5px; }
-            .container { padding: 0 2px; }
-            .hero { padding-top: 48px; }
-            .hero img.profile-pic { width: 68px; height: 68px; }
-            .hero h1 { font-size: 1.08rem; }
-            .typing-wrapper, .typing-cursor, .typing-text { font-size: 0.82rem; min-height: 18px; }
-            .apple-card { padding: 8px; border-radius: 7px; }
-            .portfolio-item img { height: 80px; }
-            .portfolio-content { padding: 6px; }
-            .section-title { font-size: 1.05rem; }
-            .section-subtitle { font-size: 0.85rem; }
-        }
-
         /* Animation classes */
         .animate-on-scroll { 
              opacity: 0;
@@ -675,53 +620,95 @@
             transform: translateY(0);
         }
 
-        .typing-wrapper {
+        /* Contact Section Responsive Fix */
+        #contact .contact-container {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 38px;
-            font-size: 1.45rem;
-            font-weight: 600;
-            color: var(--accent-primary);
-            letter-spacing: 0.01em;
-            margin-bottom: 18px;
-            margin-top: 0.5rem;
-            font-family: var(--font-primary);
-            position: relative;
-            text-align: center;
-            white-space: pre;
-            user-select: none;
+            flex-direction: row;
+            gap: 40px;
+            align-items: flex-start;
         }
-        .typing-text {
-            font-family: inherit;
-            font-size: inherit;
-            color: inherit;
-            font-weight: inherit;
-            letter-spacing: inherit;
-            transition: color 0.2s;
+        #contact .contact-form-wrapper, #contact .contact-info-wrapper {
+            flex: 1 1 0;
+            min-width: 0;
+            width: 100%;
+            max-width: none;
         }
-        .typing-cursor {
-            display: inline-block;
-            width: 1.1ch;
-            color: var(--accent-primary);
-            font-weight: 700;
-            font-size: 1.45rem;
-            animation: blink-cursor 0.85s steps(1) infinite;
-            margin-left: 2px;
-        }
-        @keyframes blink-cursor {
-            0%, 49% { opacity: 1; }
-            50%, 100% { opacity: 0; }
-        }
-        @media (max-width: 600px) {
-            .typing-wrapper, .typing-cursor, .typing-text { font-size: 0.98rem !important; min-height: 24px; }
-            .typing-wrapper { margin-bottom: 10px; margin-top: 0.2rem; padding: 0 2px; }
+        @media (max-width: 768px) {
+            #contact .contact-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            #contact .contact-form-wrapper, #contact .contact-info-wrapper {
+                width: 100%;
+                max-width: none;
+            }
         }
 
+        /* Neuron Network Canvas Background */
+        #neuron-bg-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            pointer-events: none;
+            opacity: 0.18;
+            transition: opacity 0.4s cubic-bezier(0.4,0,0.2,1);
+            filter: blur(0.5px) contrast(1.1);
+        }
+        body.neuron-bright #neuron-bg-canvas {
+            opacity: 0.38;
+        }
+        /* Hide mobile nav toggle on desktop */
+        .mobile-nav-toggle { display: none; }
+        @media (max-width: 768px) {
+            .mobile-nav-toggle { display: flex; }
+        }
+        /* Smooth scroll for all browsers */
+        html { scroll-behavior: smooth; }
+        /* Card, button, tag hover improvements */
+        .apple-card:hover, .portfolio-item:hover .apple-card {
+            box-shadow: 0 12px 32px var(--shadow-color-hover), 0 1.5px 8px var(--accent-primary);
+            transform: translateY(-6px) scale(1.015);
+        }
+        .cta-button, button[type="submit"].contact-button {
+            box-shadow: 0 2px 8px rgba(var(--accent-primary-rgb),0.08);
+        }
+        .cta-button:hover, button[type="submit"].contact-button:hover {
+            background: linear-gradient(90deg, #007AFF 60%, #0A84FF 100%);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(var(--accent-primary-rgb),0.18);
+            transform: translateY(-3px) scale(1.03);
+        }
+        .portfolio-tags .tag:hover {
+            background: linear-gradient(90deg, #007AFF22 60%, #0A84FF22 100%);
+            color: #0A84FF;
+            box-shadow: 0 2px 8px #0A84FF22;
+        }
+        .social-links-hero a:hover {
+            color: #007AFF;
+            transform: scale(1.18) rotate(-6deg);
+        }
+        /* Typing text effect styling */
+        .hero .typing-text {
+            color: #007AFF;
+            font-weight: 700;
+            font-size: 2.1rem;
+            letter-spacing: 0.01em;
+            text-shadow: 0 2px 8px #007aff33;
+            border-right: 2.5px solid #007AFF;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: blink-caret 0.8s step-end infinite;
+        }
+        @keyframes blink-caret {
+            0%, 100% { border-color: #007AFF; }
+            50% { border-color: transparent; }
+        }
     </style>
 </head>
 <body>
-    <canvas id="neuron-bg"></canvas>
+    <canvas id="neuron-bg-canvas"></canvas>
     <header>
         <div class="container">
             <a href="#hero" class="logo">Portfolio & CV</a>
@@ -760,9 +747,7 @@
             <div class="container hero-content">
                 <img src="./Assest/img/Avatar.avif" alt="Ảnh đại diện của Nam Trần" class="profile-pic animate-on-scroll" loading="lazy" decoding="async">
                 <h1 class="animate-on-scroll" style="transition-delay: 0.1s;">Chào bạn, Mình là Nam Trần.</h1>
-                <div class="typing-wrapper animate-on-scroll" style="transition-delay:0.2s;">
-                    <span class="typing-text"></span><span class="typing-cursor">|</span>
-                </div>
+                <p class="subtitle animate-on-scroll" style="transition-delay: 0.2s;"><span class="typing-text"></span></p>
                 <p class="intro-paragraph animate-on-scroll" style="transition-delay: 0.3s;">
                 khám phá xây dựng giải pháp để tạo ra những sản phẩm ý nghĩa.
                 </p>
@@ -1068,48 +1053,114 @@
     </div>
     <a href="#hero" class="scroll-to-top"><i class="fas fa-arrow-up"></i></a>
 
-    <script defer>
+    <script>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Hiệu ứng typing chữ "Bình tĩnh - Tự tin - Chiến thắng"
-(function() {
-    const typingTextElement = document.querySelector('.typing-text');
-    const cursorElement = document.querySelector('.typing-cursor');
-    const text = 'Bình tĩnh - Tự tin - Chiến thắng';
-    let idx = 0;
-    let isDeleting = false;
-    let delay = 0;
-    function type() {
-        if (!typingTextElement) return;
-        if (isDeleting) {
-            typingTextElement.textContent = text.substring(0, idx--);
-            delay = 32;
-        } else {
-            typingTextElement.textContent = text.substring(0, idx++);
-            delay = 54;
-        }
-        if (!isDeleting && idx > text.length) {
-            delay = 1800;
-            isDeleting = true;
-        } else if (isDeleting && idx < 0) {
-            delay = 600;
-            isDeleting = false;
-        }
-        setTimeout(type, delay);
-    }
-    type();
-})();
+        // Neuron network background effect
+        (function(){
+            const canvas = document.getElementById('neuron-bg-canvas');
+            if (!canvas) return;
+            let ctx, w, h, dpr, points = [], lines = [], mouse = {x:0,y:0,active:false};
+            function resize() {
+                dpr = window.devicePixelRatio || 1;
+                w = window.innerWidth; h = window.innerHeight;
+                canvas.width = w * dpr; canvas.height = h * dpr;
+                canvas.style.width = w+'px'; canvas.style.height = h+'px';
+                ctx = canvas.getContext('2d');
+                ctx.setTransform(dpr,0,0,dpr,0,0);
+            }
+            function randomPoint() {
+                return {
+                    x: Math.random()*w,
+                    y: Math.random()*h,
+                    vx: (Math.random()-0.5)*0.2,
+                    vy: (Math.random()-0.5)*0.2
+                };
+            }
+            function initPoints() {
+                points = [];
+                let count = Math.floor(w*h/12000);
+                for(let i=0;i<count;i++) points.push(randomPoint());
+            }
+            function draw() {
+                ctx.clearRect(0,0,w,h);
+                for(let i=0;i<points.length;i++){
+                    let p = points[i];
+                    ctx.beginPath();
+                    ctx.arc(p.x,p.y,2.2,0,2*Math.PI);
+                    ctx.fillStyle = mouse.active ? '#0A84FF' : '#007AFF';
+                    ctx.globalAlpha = mouse.active ? 0.7 : 0.45;
+                    ctx.fill();
+                }
+                ctx.globalAlpha = mouse.active ? 0.22 : 0.13;
+                for(let i=0;i<points.length;i++){
+                    for(let j=i+1;j<points.length;j++){
+                        let a = points[i], b = points[j];
+                        let dist = Math.hypot(a.x-b.x,a.y-b.y);
+                        if(dist<120){
+                            ctx.beginPath();
+                            ctx.moveTo(a.x,a.y);
+                            ctx.lineTo(b.x,b.y);
+                            ctx.strokeStyle = mouse.active ? '#0A84FF' : '#007AFF';
+                            ctx.lineWidth = 1.1;
+                            ctx.globalAlpha = mouse.active ? 0.22 : 0.13;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                ctx.globalAlpha = 1;
+            }
+            function animate() {
+                for(let p of points){
+                    p.x += p.vx; p.y += p.vy;
+                    if(p.x<0||p.x>w) p.vx*=-1;
+                    if(p.y<0||p.y>h) p.vy*=-1;
+                }
+                draw();
+                requestAnimationFrame(animate);
+            }
+            window.addEventListener('resize',()=>{resize();initPoints();});
+            canvas.addEventListener('mousemove',e=>{mouse.active=true;document.body.classList.add('neuron-bright');});
+            canvas.addEventListener('mouseleave',e=>{mouse.active=false;document.body.classList.remove('neuron-bright');});
+            resize();initPoints();animate();
+        })();
 
-        // Intersection Observer for animations
+        // Typing animation (improved)
+        const typingTextElement = document.querySelector('.hero .typing-text');
+        const rolesToType = ["Bình tĩnh - Tự tin, Chiến thắng"];
+        let currentRoleIndex = 0, currentCharIndex = 0, isDeletingText = false;
+        function typeRole() {
+            if (!typingTextElement) return;
+            const fullText = rolesToType[currentRoleIndex];
+            if (isDeletingText) {
+                currentCharIndex--;
+            } else {
+                currentCharIndex++;
+            }
+            typingTextElement.textContent = fullText.substring(0, currentCharIndex);
+            let typeSpeed = isDeletingText ? 40 : 80;
+            if (!isDeletingText && currentCharIndex === fullText.length) {
+                setTimeout(()=>{isDeletingText=true;typeRole();}, 1200);
+                return;
+            } else if (isDeletingText && currentCharIndex === 0) {
+                isDeletingText = false;
+                setTimeout(typeRole, 600);
+                return;
+            }
+            setTimeout(typeRole, typeSpeed);
+        }
+        setTimeout(typeRole, 600);
+
+        // Intersection Observer for animations (improved)
         const animatedElements = document.querySelectorAll('.animate-on-scroll, .apple-card');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
+                if(entry.isIntersecting){
                     entry.target.classList.add('is-visible');
-                    // observer.unobserve(entry.target); // Optional: unobserve after first animation
+                    observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 }); // Trigger when 10% of the element is visible
+        }, { threshold: 0.08 });
         animatedElements.forEach(el => observer.observe(el));
 
         // Active navigation link highlighting & Smooth Scroll
@@ -1279,218 +1330,17 @@
             contactForm.addEventListener("submit", handleFormSubmit);
         }
 
-        // === Neuron Dynamic Background Effect (web-like, clear lines, best perf) ===
-    (function() {
-        const canvas = document.getElementById('neuron-bg');
-        if (!canvas) return;
-        let ctx = canvas.getContext('2d');
-        let width = window.innerWidth;
-        let height = window.innerHeight;
-        let dpr = window.devicePixelRatio || 1;
-        let mouse = { x: width/2, y: height/2 };
-        let mouseActive = false;
-        let neuronCount = Math.floor((width * height) / 4200); // tối ưu cho hiệu suất
-        let neurons = [];
-        let radiusBoost = 180;
-        let lastTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-        let colorLight = getComputedStyle(document.documentElement).getPropertyValue('--neutron-dot-color-light').trim() || '#007AFF';
-        let colorDark = '#fff'; // Đường nối màu trắng ở dark mode
-        let opacityLight = 0.11;
-        let opacityDark = 0.13;
-
-        function resizeCanvas() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            dpr = window.devicePixelRatio || 1;
-            canvas.width = width * dpr;
-            canvas.height = height * dpr;
-            canvas.style.width = width + 'px';
-            canvas.style.height = height + 'px';
-            ctx.setTransform(1,0,0,1,0,0);
-            ctx.scale(dpr, dpr);
-        }
-        resizeCanvas();
-        window.addEventListener('resize', () => {
-            resizeCanvas();
-            neuronCount = Math.floor((width * height) / 4200);
-            initNeurons();
+        // Initialize typing animation & initial active link check
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typingTextElement) setTimeout(typeRole, 1200);
+            updateActiveNavLink(); 
         });
 
-        function randomNeuron() {
-            return {
-                x: Math.random() * width,
-                y: Math.random() * height,
-                vx: (Math.random()-0.5)*0.13,
-                vy: (Math.random()-0.5)*0.13,
-                radius: 1.1 + Math.random()*1.2,
-                alpha: 0.8 + Math.random()*0.2,
-                phase: Math.random()*Math.PI*2
-            };
-        }
-        function initNeurons() {
-            neurons = [];
-            for (let i=0; i<neuronCount; i++) {
-                neurons.push(randomNeuron());
-            }
-        }
-        initNeurons();
-
-        document.addEventListener('mousemove', e => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-            mouseActive = true;
+        // Lazy loading for all images
+        document.querySelectorAll('img').forEach(img => {
+            img.setAttribute('loading','lazy');
+            img.setAttribute('decoding','async');
         });
-        document.addEventListener('mouseleave', () => { mouseActive = false; });
-        document.addEventListener('touchmove', e => {
-            if (e.touches && e.touches[0]) {
-                mouse.x = e.touches[0].clientX;
-                mouse.y = e.touches[0].clientY;
-                mouseActive = true;
-            }
-        }, {passive:true});
-        document.addEventListener('touchend', () => { mouseActive = false; });
-
-        function getTheme() {
-            return document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-        }
-        function getNeuronColor() {
-            return getTheme() === 'dark' ? colorDark : colorLight;
-        }
-        function getNeuronOpacity() {
-            return getTheme() === 'dark' ? opacityDark : opacityLight;
-        }
-
-        function animate() {
-            ctx.clearRect(0,0,width,height);
-            ctx.save();
-            ctx.globalAlpha = getNeuronOpacity();
-            let color = getNeuronColor();
-            // Move neurons
-            for (let i=0; i<neurons.length; i++) {
-                let n = neurons[i];
-                n.x += n.vx + Math.cos(n.phase)*0.07;
-                n.y += n.vy + Math.sin(n.phase)*0.07;
-                n.phase += 0.01 + Math.random()*0.01;
-                // Wrap around screen
-                if (n.x < 0) n.x += width;
-                if (n.x > width) n.x -= width;
-                if (n.y < 0) n.y += height;
-                if (n.y > height) n.y -= height;
-            }
-            // Draw clear web-like lines
-            ctx.save();
-            ctx.globalAlpha = getNeuronOpacity() * 0.7;
-            ctx.strokeStyle = color;
-            ctx.lineWidth = 0.7;
-            for (let i=0; i<neurons.length; i++) {
-                for (let j=i+1; j<neurons.length; j++) {
-                    let n1 = neurons[i], n2 = neurons[j];
-                    let dx = n1.x-n2.x, dy = n1.y-n2.y;
-                    let d = Math.sqrt(dx*dx+dy*dy);
-                    if (d < 90) {
-                        ctx.beginPath();
-                        ctx.moveTo(n1.x, n1.y);
-                        ctx.lineTo(n2.x, n2.y);
-                        ctx.stroke();
-                    }
-                }
-            }
-            ctx.restore();
-            // Draw neurons
-            for (let i=0; i<neurons.length; i++) {
-                let n = neurons[i];
-                let boost = 1;
-                if (mouseActive) {
-                    let dist = Math.sqrt((n.x-mouse.x)**2 + (n.y-mouse.y)**2);
-                    if (dist < radiusBoost) boost = 2.2 - dist/radiusBoost;
-                }
-                ctx.beginPath();
-                ctx.arc(n.x, n.y, n.radius * boost, 0, Math.PI*2);
-                ctx.fillStyle = color;
-                ctx.globalAlpha = getNeuronOpacity() * n.alpha * boost;
-                ctx.shadowColor = color;
-                ctx.shadowBlur = 8 * boost;
-                ctx.fill();
-                ctx.shadowBlur = 0;
-            }
-            ctx.restore();
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // Re-init neurons on theme change
-        const themeObserver = new MutationObserver(() => {
-            if (getTheme() !== lastTheme) {
-                lastTheme = getTheme();
-                colorLight = getComputedStyle(document.documentElement).getPropertyValue('--neutron-dot-color-light').trim() || '#007AFF';
-                // colorDark luôn là trắng
-                initNeurons();
-            }
-        });
-        themeObserver.observe(document.body, {attributes:true, attributeFilter:['class']});
-    })();
-    // === End Neuron Effect ===
-
-    // === Parallax Scrolling Effect (fade+slide, smooth, perf) ===
-    (function() {
-        const parallaxSections = document.querySelectorAll('main section');
-        let lastScrollY = window.scrollY;
-        let current = 0;
-        function parallaxScroll() {
-            lastScrollY = window.scrollY;
-            current += (lastScrollY - current) * 0.13;
-            parallaxSections.forEach((section, idx) => {
-                const rect = section.getBoundingClientRect();
-                if (rect.bottom > 0 && rect.top < window.innerHeight) {
-                    // Parallax translateY for background
-                    section.style.backgroundPosition = `center ${-current * (0.09 + idx*0.012)}px`;
-                    // Fade+slide effect
-                    let slide = (current - lastScrollY) * (0.04 + idx*0.01);
-                    section.style.transform = `translate3d(0,${slide}px,0)`;
-                    section.style.opacity = 1 - Math.min(0.12, Math.abs(slide*0.012));
-                }
-            });
-            requestAnimationFrame(parallaxScroll);
-        }
-        parallaxScroll();
-    })();
-    // === End Parallax ===
     </script>
-    <style>
-    /* Neuron canvas background */
-    #neuron-bg {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100vw; height: 100vh;
-        z-index: -1;
-        pointer-events: none;
-        display: block;
-        background: transparent;
-        /* Optimize for performance */
-        will-change: opacity, transform;
-    }
-    /* Improved apple-card hover effect */
-    .apple-card {
-        transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
-                    box-shadow 0.35s cubic-bezier(0.4,0,0.2,1),
-                    border-color 0.25s cubic-bezier(0.4,0,0.2,1),
-                    opacity 0.6s var(--transition-cubic);
-        will-change: transform, box-shadow, border-color;
-        border: 1.5px solid var(--border-color-subtle);
-    }
-    .apple-card:hover {
-        transform: translateY(-10px) scale(1.035) rotateZ(-0.3deg);
-        box-shadow: 0 12px 32px 0 rgba(var(--accent-primary-rgb),0.13), 0 2px 8px var(--shadow-color-hover);
-        border-color: var(--accent-primary);
-        background: linear-gradient(120deg,rgba(var(--accent-primary-rgb),0.07) 0%,rgba(255,255,255,0.95) 100%);
-        filter: brightness(1.03) saturate(1.08);
-    }
-    body.dark-mode .apple-card:hover {
-        background: linear-gradient(120deg,rgba(var(--dark-accent-primary-rgb),0.13) 0%,rgba(22,22,23,0.98) 100%);
-        box-shadow: 0 12px 32px 0 rgba(var(--dark-accent-primary-rgb),0.18), 0 2px 8px var(--dark-shadow-color-hover);
-        border-color: var(--dark-accent-primary);
-        filter: brightness(1.07) saturate(1.13);
-    }
-    </style>
 </body>
 </html>
