@@ -105,6 +105,7 @@
 
         html {
             scroll-behavior: smooth;
+            overscroll-behavior-y: none;
             font-size: 16px; 
         }
 
@@ -219,13 +220,28 @@
         .mobile-nav-toggle.nav-open .fa-times { display: block; color: var(--text-primary); }
 
         header .logo {
-            font-size: 1.5rem; 
-            font-weight: 600;
-            color: var(--text-primary);
-            text-decoration: none;
-            z-index: 1001;
-            transition: color var(--transition-duration) var(--transition-cubic);
-            margin-right: auto; /* Pushes other items to the right */
+            font-family: 'SF Pro Display', 'Segoe UI', 'Inter', 'Arial', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #111;
+            text-shadow: 0 2px 12px #00000011;
+            transition: color 0.3s, text-shadow 0.3s;
+            margin-right: auto;
+            background: none;
+            -webkit-background-clip: initial;
+            -webkit-text-fill-color: initial;
+            background-clip: initial;
+            filter: none;
+        }
+        header .logo:hover {
+            color: #007AFF;
+            text-shadow: 0 4px 18px #007aff22;
+            filter: none;
+        }
+        body.dark-mode header .logo {
+            color: #fff;
+            text-shadow: 0 2px 12px #00000033;
         }
         header .logo span { color: var(--accent-primary); font-weight: 700; }
 
@@ -357,15 +373,40 @@
         .hero img.profile-pic:hover { transform: scale(1.03); }
         .hero h1 {
             font-size: 3.5rem; font-weight: 700; letter-spacing: -0.02em; 
-            color: var(--text-primary); margin-bottom: 12px;
+            color: #111;
+            text-shadow: 0 2px 12px #00000011;
+            margin-bottom: 12px;
+            transition: color 0.3s, text-shadow 0.3s, font-size 0.3s;
+        }
+        body.dark-mode .hero h1 {
+            color: #fff;
+            text-shadow: 0 2px 12px #00000033;
         }
         .hero .subtitle {
             font-size: 1.75rem; color: var(--text-secondary); margin-bottom: 25px;
             font-weight: 400; max-width: 600px; margin-left: auto; margin-right: auto;
             text-align: center; 
         }
-        .hero .subtitle .typing-text { font-weight: 600; color: var(--text-primary); }
+        .hero .subtitle .typing-text {
+            color: #007AFF;
+            font-weight: 700;
+            font-size: 1.35rem;
+            letter-spacing: 0.01em;
+            text-shadow: 0 2px 8px #00000011;
+            border-right: 2.5px solid #111;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: blink-caret 0.8s step-end infinite;
+            transition: color 0.3s, font-size 0.3s, border-right-color 0.3s;
+        }
+
+        body.dark-mode .hero .typing-text {
+            color: #fff;
+            border-right: 2.5px solid #fff;
+            text-shadow: 0 2px 8px #00000033;
+        }
         .hero .intro-paragraph {
+            font-family: var(--font-primary); font-weight: 600;
             font-size: 1.125rem; color: var(--text-secondary); max-width: 650px;
             margin: 0 auto 30px auto; line-height: 1.7;
         }
@@ -427,9 +468,15 @@
         /* About Me Section */
         #about .about-content { display: grid; grid-template-columns: 2fr 1fr; gap: 60px; align-items: center; }
         #about .about-image-container img {
-            max-width: 100%; border-radius: var(--border-radius-m);
+            max-width: 100%;
+            border-radius: var(--border-radius-m);
             box-shadow: 0 6px 15px var(--shadow-color);
-            transition: box-shadow var(--transition-duration) var(--transition-cubic);
+            transition: box-shadow 0.3s var(--transition-cubic), transform 0.35s var(--transition-cubic), filter 0.35s var(--transition-cubic);
+        }
+        #about .about-image-container img:hover {
+            box-shadow: 0 12px 32px var(--shadow-color-hover), 0 2px 12px #007AFF33;
+            transform: scale(1.045) rotate(-2deg);
+            filter: brightness(1.08) saturate(1.15) contrast(1.08);
         }
         #about .about-text p { margin-bottom: 16px; font-size: 1.05rem; }
         #about .about-text strong { color: var(--text-primary); font-weight: 600; transition: color var(--transition-duration) var(--transition-cubic); }
@@ -652,7 +699,7 @@
             height: 100vh;
             z-index: -2;
             pointer-events: none;
-            opacity: 0.18;
+            opacity: 0.7;
             transition: opacity 0.4s cubic-bezier(0.4,0,0.2,1);
             filter: blur(0.5px) contrast(1.1);
         }
@@ -689,21 +736,108 @@
             color: #007AFF;
             transform: scale(1.18) rotate(-6deg);
         }
-        /* Typing text effect styling */
+        /* Typing text effect styling - always blue in light, white in dark */
         .hero .typing-text {
             color: #007AFF;
             font-weight: 700;
-            font-size: 2.1rem;
+            font-size: 1.35rem;
             letter-spacing: 0.01em;
             text-shadow: 0 2px 8px #007aff33;
             border-right: 2.5px solid #007AFF;
             white-space: nowrap;
             overflow: hidden;
             animation: blink-caret 0.8s step-end infinite;
+            transition: color 0.3s, font-size 0.3s, border-right-color 0.3s;
+        }
+        body.dark-mode .hero .typing-text  {
+            color: #fff;
+            border-right: 2.5px solid #fff;
+            text-shadow: 0 2px 8px #00000033;
+            animation: typing 5s steps(30, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
         }
         @keyframes blink-caret {
-            0%, 100% { border-color: #007AFF; }
             50% { border-color: transparent; }
+        }
+
+        @media (max-width: 992px) {
+            .hero .typing-text { font-size: 1.15rem; }
+        }
+        @media (max-width: 768px) {
+            .hero .typing-text { font-size: 1rem; }
+        }
+        @media (max-width: 480px) {
+            .hero .typing-text { font-size: 0.92rem; }
+        }
+        /* Logo and hero font style */
+        header .logo {
+            font-family: 'SF Pro Display', 'Segoe UI', 'Inter', 'Arial', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #111;
+            text-shadow: 0 2px 12px #00000011;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        header .logo:hover {
+            color: #007AFF;
+            text-shadow: 0 4px 18px #007aff22;
+        }
+        body.dark-mode header .logo {
+            color: #fff;
+            text-shadow: 0 2px 12px #00000033;
+        }
+        .hero h1 {
+            font-family: 'SF Pro Display', 'Segoe UI', 'Inter', 'Arial', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: #111;
+            text-shadow: 0 2px 12px #00000011;
+            margin-bottom: 12px;
+            transition: color 0.3s, text-shadow 0.3s, font-size 0.3s;
+        }
+        body.dark-mode .hero h1 {
+            color: #fff;
+            text-shadow: 0 2px 12px #00000033;
+        }
+
+        /* Navigation bold and English */
+        header nav#main-nav ul li a,
+        nav#mobile-nav-menu-actual ul li a {
+            font-weight: 700;
+        }
+
+        /* Smooth scroll and scroll-behavior improvements */
+        html {
+            scroll-behavior: smooth;
+            overscroll-behavior-y: none;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0,122,255,0.13);
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,122,255,0.22);
+        }
+        /* Section scroll fade-in effect */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -711,18 +845,18 @@
     <canvas id="neuron-bg-canvas"></canvas>
     <header>
         <div class="container">
-            <a href="#hero" class="logo">Portfolio & CV</a>
+            <a href="#hero" class="logo">Portfolio</a>
             <nav id="main-nav">
                 <ul>
-                    <li><a href="#about" class="nav-link">Giới Thiệu</a></li>
-                    <li><a href="#skills" class="nav-link">Kỹ Năng</a></li>
-                    <li><a href="#experience" class="nav-link">Kinh Nghiệm</a></li>
-                    <li><a href="#projects" class="nav-link">Dự Án</a></li>
-                    <li><a href="#education" class="nav-link">Học Vấn</a></li>
-                    <li><a href="#contact" class="nav-link">Liên Hệ</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#skills" class="nav-link">Skills</a></li>
+                    <li><a href="#experience" class="nav-link">Experience</a></li>
+                    <li><a href="#projects" class="nav-link">Projects</a></li>
+                    <li><a href="#education" class="nav-link">Education</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
-            <button id="theme-toggle" title="Chuyển chế độ Sáng/Tối">
+            <button id="theme-toggle" title="Switch Light/Dark Mode">
                 <i class="fas fa-sun"></i>
                 <i class="fas fa-moon"></i>
             </button>
@@ -734,12 +868,12 @@
     </header>
     <nav id="mobile-nav-menu-actual">
         <ul>
-            <li><a href="#about" class="nav-link">Giới Thiệu</a></li>
-            <li><a href="#skills" class="nav-link">Kỹ Năng</a></li>
-            <li><a href="#experience" class="nav-link">Kinh Nghiệm</a></li>
-            <li><a href="#projects" class="nav-link">Dự Án</a></li>
-            <li><a href="#education" class="nav-link">Học Vấn</a></li>
-            <li><a href="#contact" class="nav-link">Liên Hệ</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#skills" class="nav-link">Skills</a></li>
+            <li><a href="#experience" class="nav-link">Experience</a></li>
+            <li><a href="#projects" class="nav-link">Projects</a></li>
+            <li><a href="#education" class="nav-link">Education</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
     </nav>
     <main>
@@ -1127,7 +1261,7 @@
 
         // Typing animation (improved)
         const typingTextElement = document.querySelector('.hero .typing-text');
-        const rolesToType = ["Bình tĩnh - Tự tin, Chiến thắng"];
+        const rolesToType = ["Bình tĩnh - Tự tin - Chiến thắng", "Devoloper - Part-timer", "Người học hỏi - Người sáng tạo"];
         let currentRoleIndex = 0, currentCharIndex = 0, isDeletingText = false;
         function typeRole() {
             if (!typingTextElement) return;
@@ -1163,10 +1297,27 @@
         }, { threshold: 0.08 });
         animatedElements.forEach(el => observer.observe(el));
 
+        // Cải thiện hiệu ứng cuộn trang mượt mà
+        // (Đã có scroll-behavior: smooth trong CSS, thêm scrollIntoView cho các link)
+        const allNavLinks = document.querySelectorAll('a[href^="#"]');
+        allNavLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#') && href.length > 1) {
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+
         // Active navigation link highlighting & Smooth Scroll
         const desktopNavLinks = document.querySelectorAll('header nav#main-nav ul li a');
         const mobileNavLinksList = document.querySelectorAll('nav#mobile-nav-menu-actual ul li a');
-        const allNavLinks = [...desktopNavLinks, ...mobileNavLinksList];
+        const allNavLinks2 = [...desktopNavLinks, ...mobileNavLinksList];
 
         const pageSections = document.querySelectorAll('main section[id]');
         const siteHeader = document.querySelector('header');
@@ -1186,7 +1337,7 @@
                  currentSectionId = 'hero';
             }
 
-            allNavLinks.forEach(link => {
+            allNavLinks2.forEach(link => {
                 link.classList.remove('active');
                 const href = link.getAttribute('href');
                 if (href && href.startsWith('#') && href.length > 1 && href.substring(1) === currentSectionId) {
@@ -1197,7 +1348,7 @@
             });
         }
         
-        allNavLinks.forEach(link => {
+        allNavLinks2.forEach(link => {
             link.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
                 if (href && href.startsWith('#') && href.length > 1) {
