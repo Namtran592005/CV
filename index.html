@@ -397,13 +397,15 @@
             white-space: nowrap;
             overflow: hidden;
             animation: blink-caret 0.8s step-end infinite;
-            transition: color 0.3s, font-size 0.3s, border-right-color 0.3s;
+            transition: color 0.9s, font-size 0.9s, border-right-color 0.3s;
         }
+
 
         body.dark-mode .hero .typing-text {
             color: #fff;
             border-right: 2.5px solid #fff;
             text-shadow: 0 2px 8px #00000033;
+            animation: typing 14s steps(30, end), blink-caret 0.75s step-end infinite;
         }
         .hero .intro-paragraph {
             font-family: var(--font-primary); font-weight: 600;
@@ -746,14 +748,14 @@
             border-right: 2.5px solid #007AFF;
             white-space: nowrap;
             overflow: hidden;
-            animation: blink-caret 0.8s step-end infinite;
+            animation: blink-caret 3s step-end infinite;
             transition: color 0.3s, font-size 0.3s, border-right-color 0.3s;
         }
         body.dark-mode .hero .typing-text  {
             color: #fff;
             border-right: 2.5px solid #fff;
             text-shadow: 0 2px 8px #00000033;
-            animation: typing 5s steps(30, end), blink-caret 0.75s step-end infinite;
+            animation: typing 14s steps(30, end), blink-caret 0.75s step-end infinite;
         }
 
         @keyframes typing {
@@ -1259,31 +1261,47 @@
             resize();initPoints();animate();
         })();
 
-        // Typing animation (improved)
+        // Typing animation (with deleting effect and smooth transition)
         const typingTextElement = document.querySelector('.hero .typing-text');
-        const rolesToType = ["Bình tĩnh - Tự tin - Chiến thắng", "Devoloper - Part-timer", "Người học hỏi - Người sáng tạo"];
+        const rolesToType = [
+            "Bình tĩnh - Tự tin - Chiến thắng",
+            "Devolper - Part-timer - Student",
+            "Chill - Relax - Enjoy",
+            "Moore than you know",
+        ];
         let currentRoleIndex = 0, currentCharIndex = 0, isDeletingText = false;
+
         function typeRole() {
             if (!typingTextElement) return;
             const fullText = rolesToType[currentRoleIndex];
-            if (isDeletingText) {
-                currentCharIndex--;
-            } else {
-                currentCharIndex++;
-            }
             typingTextElement.textContent = fullText.substring(0, currentCharIndex);
+            // Hiệu ứng mờ khi chuyển đoạn
+            if ((isDeletingText && currentCharIndex === 0) || (!isDeletingText && currentCharIndex === fullText.length)) {
+                typingTextElement.style.opacity = 0.5;
+                setTimeout(() => {
+                    typingTextElement.style.transition = 'opacity 0.4s';
+                    typingTextElement.style.opacity = 1;
+                }, 200);
+            }
             let typeSpeed = isDeletingText ? 40 : 80;
-            if (!isDeletingText && currentCharIndex === fullText.length) {
-                setTimeout(()=>{isDeletingText=true;typeRole();}, 1200);
-                return;
+            if (!isDeletingText && currentCharIndex < fullText.length) {
+                currentCharIndex++;
+                setTimeout(typeRole, typeSpeed);
+            } else if (!isDeletingText && currentCharIndex === fullText.length) {
+                setTimeout(() => {
+                    isDeletingText = true;
+                    setTimeout(typeRole, 600);
+                }, 1400); // pause before deleting
+            } else if (isDeletingText && currentCharIndex > 0) {
+                currentCharIndex--;
+                setTimeout(typeRole, typeSpeed);
             } else if (isDeletingText && currentCharIndex === 0) {
                 isDeletingText = false;
-                setTimeout(typeRole, 600);
-                return;
+                currentRoleIndex = (currentRoleIndex + 1) % rolesToType.length;
+                setTimeout(typeRole, 600); // pause before typing next
             }
-            setTimeout(typeRole, typeSpeed);
         }
-        setTimeout(typeRole, 600);
+        setTimeout(typeRole, 800);
 
         // Intersection Observer for animations (improved)
         const animatedElements = document.querySelectorAll('.animate-on-scroll, .apple-card');
@@ -1377,6 +1395,7 @@
             }
         });
         if (scrollToTopButton) {
+
             scrollToTopButton.addEventListener('click', (e) => {
                 e.preventDefault();
                 const targetHref = scrollToTopButton.getAttribute('href');
