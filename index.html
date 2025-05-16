@@ -623,6 +623,48 @@
             transform: translateY(0);
         }
 
+        .typing-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 38px;
+            font-size: 1.45rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            letter-spacing: 0.01em;
+            margin-bottom: 18px;
+            margin-top: 0.5rem;
+            font-family: var(--font-primary);
+            position: relative;
+            text-align: center;
+            white-space: pre;
+            user-select: none;
+        }
+        .typing-text {
+            font-family: inherit;
+            font-size: inherit;
+            color: inherit;
+            font-weight: inherit;
+            letter-spacing: inherit;
+            transition: color 0.2s;
+        }
+        .typing-cursor {
+            display: inline-block;
+            width: 1.1ch;
+            color: var(--accent-primary);
+            font-weight: 700;
+            font-size: 1.45rem;
+            animation: blink-cursor 0.85s steps(1) infinite;
+            margin-left: 2px;
+        }
+        @keyframes blink-cursor {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+        @media (max-width: 600px) {
+            .typing-wrapper, .typing-cursor, .typing-text { font-size: 1.08rem; }
+        }
+
     </style>
 </head>
 <body>
@@ -665,7 +707,9 @@
             <div class="container hero-content">
                 <img src="./Assest/img/Avatar.avif" alt="Ảnh đại diện của Nam Trần" class="profile-pic animate-on-scroll" loading="lazy" decoding="async">
                 <h1 class="animate-on-scroll" style="transition-delay: 0.1s;">Chào bạn, Mình là Nam Trần.</h1>
-                <p class="subtitle animate-on-scroll" style="transition-delay: 0.2s;"><span class="typing-text"></span></p>
+                <div class="typing-wrapper animate-on-scroll" style="transition-delay:0.2s;">
+                    <span class="typing-text"></span><span class="typing-cursor">|</span>
+                </div>
                 <p class="intro-paragraph animate-on-scroll" style="transition-delay: 0.3s;">
                 khám phá xây dựng giải pháp để tạo ra những sản phẩm ý nghĩa.
                 </p>
@@ -974,41 +1018,35 @@
     <script defer>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Typing animation
-        const typingTextElement = document.querySelector('.hero .typing-text');
-        const rolesToType = ["Bình Tĩnh - Tự Tin - Chiến Thắng"];
-        let currentRoleIndex = 0;
-        let currentCharIndex = 0;
-        let currentTextToDisplay = '';
-        let isDeletingText = false;
-
-        function typeRole() {
-            if (!typingTextElement) return;
-            const fullText = rolesToType[currentRoleIndex];
-            
-            if (isDeletingText) {
-                currentTextToDisplay = fullText.substring(0, currentCharIndex - 1);
-                currentCharIndex--;
-            } else {
-                currentTextToDisplay = fullText.substring(0, currentCharIndex + 1);
-                currentCharIndex++;
-            }
-            typingTextElement.textContent = currentTextToDisplay;
-
-            let typeSpeed = 100;
-            if (isDeletingText) typeSpeed /= 2;
-
-            if (!isDeletingText && currentTextToDisplay === fullText) {
-                typeSpeed = 2000; 
-                isDeletingText = true;
-            } else if (isDeletingText && currentTextToDisplay === '') {
-                isDeletingText = false;
-                currentRoleIndex = (currentRoleIndex + 1) % rolesToType.length;
-                typeSpeed = 500; 
-            }
-            setTimeout(typeRole, typeSpeed);
+        // Hiệu ứng typing chữ "Bình tĩnh - Tự tin - Chiến thắng"
+(function() {
+    const typingTextElement = document.querySelector('.typing-text');
+    const cursorElement = document.querySelector('.typing-cursor');
+    const text = 'Bình tĩnh - Tự tin - Chiến thắng';
+    let idx = 0;
+    let isDeleting = false;
+    let delay = 0;
+    function type() {
+        if (!typingTextElement) return;
+        if (isDeleting) {
+            typingTextElement.textContent = text.substring(0, idx--);
+            delay = 32;
+        } else {
+            typingTextElement.textContent = text.substring(0, idx++);
+            delay = 54;
         }
-        
+        if (!isDeleting && idx > text.length) {
+            delay = 1800;
+            isDeleting = true;
+        } else if (isDeleting && idx < 0) {
+            delay = 600;
+            isDeleting = false;
+        }
+        setTimeout(type, delay);
+    }
+    type();
+})();
+
         // Intersection Observer for animations
         const animatedElements = document.querySelectorAll('.animate-on-scroll, .apple-card');
         const observer = new IntersectionObserver((entries) => {
