@@ -841,6 +841,14 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        html, body, * {
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -ms-user-select: none !important;
+            -moz-user-select: none !important;
+            cursor:pointer !important;
+        }
     </style>
 </head>
 <body>
@@ -1134,9 +1142,13 @@
         </section>
     </main>
     <footer>
-        <div class="container">
+        <div class="container" style="position: relative;">
             <p style="margin-bottom: 2%;"><span id="currentYear"></span> Made by Nam Trần</p>
             <a><i class="fa-brands fa-mandalorian fa-2xl"></i></a>
+            <a href="./src/" download style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); background: var(--accent-primary); color: #fff; padding: 8px 18px; border-radius: 8px; font-size: 1rem; font-weight: 500; text-decoration: none; box-shadow: 0 2px 8px #007aff22; transition: background 0.2s;">
+                <i class="fa-solid fa-download" style="margin-right: 7px;"></i>
+                Download
+            </a>
         </div>
     </footer>
     <div style="background:var(--bg-secondary);color:var(--text-tertiary);font-size:0.92rem;text-align:center;padding:18px 8px 18px 8px;border-top:1px solid var(--border-color-subtle);">
@@ -1456,6 +1468,14 @@
         if (contactForm) {
             contactForm.addEventListener("submit", handleFormSubmit);
         }
+
+        // Chặn thao tác copy, cut, paste, drag, context menu
+        document.addEventListener('copy', e => e.preventDefault());
+        document.addEventListener('cut', e => e.preventDefault());
+        document.addEventListener('paste', e => e.preventDefault());
+        document.addEventListener('selectstart', e => e.preventDefault());
+        document.addEventListener('dragstart', e => e.preventDefault());
+        document.addEventListener('contextmenu', e => e.preventDefault());
 
         // Initialize typing animation & initial active link check
         document.addEventListener('DOMContentLoaded', () => {
